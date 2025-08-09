@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .homepage_container{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+</style>
+
+<div class="homepage_container">
+    <div class="recently-added">
+        {% for movie in movies %}
+        <div>
+            {{movie.title}}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="recent-reviews">
+        {% for review in reviews %}
+        <div>
+            {{review.body}}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
