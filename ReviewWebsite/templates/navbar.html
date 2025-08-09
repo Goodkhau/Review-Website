@@ -1,17 +1,24 @@
 <style>
+    .navigationBarHolder {
+        display: grid;
+        width: 100%;
+        height: 25px;
+    }
     .navigationBar {
         position: fixed;
         top: 0;
-        width: 100%;
     }
 </style>
 
-<div class="navigationBar">
-    <div class="elementContainer">
-        <a href="">Logo</a>
-        <a href="">Genre</a>
-        <a href="{% url 'chart-home' %}">Chart</a>
-        <input type="text" placeholder="Search"/>
-        <a href="">Signin</a>
+<div class="navigationBarHolder">
+    <div></div>
+    <div class="navigationBar">
+        <div class="elementContainer">
+            <a href="">Logo</a>
+            <a href="">Genre</a>
+            <a href="{% url 'chart-home' %}">Chart</a>
+            <input type="text" placeholder="Search"/>
+            <a href="">Signin</a>
+        </div>
     </div>
 </div>
