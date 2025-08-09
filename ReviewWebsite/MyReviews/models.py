@@ -11,7 +11,7 @@ class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    average_score = models.DecimalField(max_digits=2, decimal_places=2, null=True)
+    average_score = models.DecimalField(max_digits=4, decimal_places=2, null=True)
     genre_list = models.ManyToManyField(Genre, related_name='genre_list', blank=True)
     release_date = models.DateField()
     runtime = models.DurationField()
