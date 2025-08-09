@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    {% for movie in movies %}
+        {{movie.title}}
+    {% endfor %}
+</div>
+
+{% endblock %}

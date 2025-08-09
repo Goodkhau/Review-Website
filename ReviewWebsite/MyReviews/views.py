@@ -16,6 +16,11 @@ def genrepage(request):
     context = {'genre': genre}
     return render(request, 'MyReviews/genrepage.html', context)
 
+def charthome(request):
+    movies = Movie.objects.all().order_by('-average_score')[:10]
+    context = {'movies': movies}
+    return render(request, 'MyReviews/chartpage.html', context)
+
 def chartpage(request):
     start = (pk-1)*10
     end = pk*10
