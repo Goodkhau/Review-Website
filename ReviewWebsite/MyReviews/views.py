@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Movie, Review
+from .models import Movie, Review, Genre, Chart
 
-def home(request):
+def homepage(request):
     movies = Movie.objects.all().order_by('-release_date')[:10]
     reviews = Review.objects.all().order_by('-created_at')[:10]
     context = {'movies': movies, 'reviews': reviews}
