@@ -13,9 +13,10 @@
         background-color: #F5F5F5;
     }
     .recentMovieContainer {
+        display: grid;
         padding-top: 2%;
         padding-bottom: 2%;
-
+        grid-template-columns: 1fr 1fr 1fr;
     }
 </style>
 
@@ -25,7 +26,24 @@
         <hr>
         {% for movie in movies %}
         <div class="recentMovieContainer">
-            {{movie.title}}
+            <div>
+                <h2>Image</h2>
+            </div>
+            <div>
+                <div>
+                    <h3>{{movie.title}}</h3>
+                </div>
+                <div>
+                    {{movie.release_date}}
+                    {{movie.runtime}}
+                    genre
+                </div>
+                <div>
+                    Rating: {{movie.average_score}}
+                </div>
+            </div>
+            <div>
+            </div>
         </div>
         <hr>
         {% endfor %}
