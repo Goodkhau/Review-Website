@@ -1,12 +1,49 @@
 <style>
+    body {
+        margin: 0;
+    }
     .navigationBarHolder {
         display: grid;
         width: 100%;
-        height: 25px;
+        height: 30px;
     }
     .navigationBar {
         position: fixed;
         top: 0;
+        width: 100%;
+        border-bottom-style: outset;
+        border-bottom-color: #F5F5F5;
+    }
+    .elementContainer {
+        display: grid;
+        grid-template-columns: 3fr 5fr 1fr;
+        height: 30px;
+        align-items: center;
+    }
+    .elementContainer div {
+        text-align: center;
+    }
+    .navButton:hover {
+        background-color: #F5F5F5;
+    }
+    .buttonGroup {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+    .searchBar input {
+        border: 0;
+        width: 100%;
+        background-color: #F5F5F5;
+    }
+    .navButton a {
+        font: bold 11px Arial;
+        text-decoration: none;
+    }
+    .signinContainer {
+        padding-left: 10%;
+        padding-right: 10%;
     }
 </style>
 
@@ -14,11 +51,25 @@
     <div></div>
     <div class="navigationBar">
         <div class="elementContainer">
-            <a href="">Logo</a>
-            <a href="">Genre</a>
-            <a href="{% url 'chart-home' %}">Chart</a>
-            <input type="text" placeholder="Search"/>
-            <a href="">Signin</a>
+            <div class="buttonGroup">
+                <div class="navButton">
+                    <a href="{% url 'home-page' %}">Logo</a>
+                </div>
+                <div class="navButton">
+                    <a href="">Genre</a>
+                </div>
+                <div class="navButton">
+                    <a href="{% url 'chart-home' %}">Chart</a>
+                </div>
+            </div>
+            <div class="searchBar">
+                <input type="text" size="100%" placeholder="Search"/>
+            </div>
+            <div class="signinContainer">
+                <div class="navButton">
+                    <a href="">Signin</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
