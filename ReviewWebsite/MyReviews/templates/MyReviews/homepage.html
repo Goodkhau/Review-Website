@@ -3,26 +3,43 @@
 {% block content %}
 
 <style>
-    .homepage_container{
+    .homepageContainer{
         display: grid;
         grid-template-columns: 1fr 2fr;
+        grid-gap: 4%;
+        padding: 4%;
+    }
+    .recentReviews {
+        background-color: #F5F5F5;
+    }
+    .recentMovieContainer {
+        padding-top: 2%;
+        padding-bottom: 2%;
+
     }
 </style>
 
-<div class="homepage_container">
-    <div class="recently-added">
+<div class="homepageContainer">
+    <div class="recentlyAdded">
+        <h2>Recently Released Movies</h2>
+        <hr>
         {% for movie in movies %}
-        <div>
+        <div class="recentMovieContainer">
             {{movie.title}}
         </div>
+        <hr>
         {% endfor %}
     </div>
-    <div class="recent-reviews">
-        {% for review in reviews %}
-        <div>
-            {{review.body}}
+    <div>
+        <h2>Recent Reviews</h2>
+        <hr>
+        <div class="recentReviews">
+            {% for review in reviews %}
+            <div>
+                {{review.body}}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 
