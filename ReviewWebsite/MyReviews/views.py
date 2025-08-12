@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from .models import Movie, Review, Genre, User
 
 def homepage(request):
+    movie_genres = []
     movies = Movie.objects.all().order_by('-release_date')[:10]
+    for movie in movies:
+        genres = movie.genre_list.all()
+        temp = [movie, genres]
+        movie_genres.append(temp)
     reviews = Review.objects.all().order_by('-created_at')[:10]
-    context = {'movies': movies, 'reviews': reviews}
+    context = {'reviews': reviews, 'movie_genres': movie_genres}
     return render(request, 'MyReviews/homepage.html', context)
 
 def genrehome(request):

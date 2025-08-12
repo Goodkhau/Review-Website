@@ -24,22 +24,24 @@
     <div class="recentlyAdded">
         <h2>Recently Released Movies</h2>
         <hr>
-        {% for movie in movies %}
+        {% for movie_genre in movie_genres %}
         <div class="recentMovieContainer">
             <div>
                 <h2>Image</h2>
             </div>
             <div>
                 <div>
-                    <h3>{{movie.title}}</h3>
+                    <h3>{{movie_genre.0.title}}</h3>
                 </div>
                 <div>
-                    {{movie.release_date}}
-                    {{movie.runtime}}
-                    genre
+                    {{movie_genre.0.release_date}}
+                    {{movie_genre.0.runtime}}
+                    {% for genre in movie_genre.1 %}
+                        {{genre.name}}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
                 </div>
                 <div>
-                    Rating: {{movie.average_score}}
+                    Rating: {{movie_genre.0.average_score}}
                 </div>
             </div>
             <div>
