@@ -10,18 +10,24 @@
         padding: 4%;
     }
     .recentReviews {
-        background-color: #F5F5F5;
+        display: grid;
+        grid-gap: 4%;
     }
     .recentMovieContainer {
         display: grid;
-        padding-top: 2%;
-        padding-bottom: 2%;
+        padding: 3%;
         grid-template-columns: 1fr 1fr 1fr;
+    }
+    .recentReviewsContainer {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        padding: 3%;
+        background-color: #F5F5F5;
     }
 </style>
 
 <div class="homepageContainer">
-    <div class="recentlyAdded">
+    <section class="recentlyAdded">
         <h2>Recently Released Movies</h2>
         <hr>
         {% for movie_genre in movie_genres %}
@@ -49,18 +55,24 @@
         </div>
         <hr>
         {% endfor %}
-    </div>
-    <div>
+    </section>
+    <section>
         <h2>Recent Reviews</h2>
         <hr>
         <div class="recentReviews">
-            {% for review in reviews %}
-            <div>
-                {{review.body}}
+            {% for review_movie in review_movies %}
+            <div class="recentReviewsContainer">
+                <div class="review-image-container">
+                    <h2>Image</h2>
+                </div>
+                <div class="review-body-container">
+                    <h1>{{review_movie.1.title}}</h1>
+                    {{review_movie.0.body}}
+                </div>
             </div>
             {% endfor %}
         </div>
-    </div>
+    </section>
 </div>
 
 {% endblock %}
