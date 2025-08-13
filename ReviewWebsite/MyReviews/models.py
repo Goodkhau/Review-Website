@@ -25,7 +25,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     runtime = models.DurationField()
     date_added = models.DateTimeField(auto_now_add=True)
-    director = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True)
+    director = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True, blank=True)
     cast = models.ManyToManyField(Person, related_name='cast', blank=True)
     crew = models.ManyToManyField(Person, related_name='crew', blank=True)
 

@@ -16,12 +16,17 @@
     .recentMovieContainer {
         display: grid;
         padding: 3%;
+        grid-gap: 3%;
         grid-template-columns: 1fr 2fr;
+    }
+    .img-container {
+        height: auto;
     }
     .recentReviewsContainer {
         display: grid;
         grid-template-columns: 1fr 2fr;
         padding: 3%;
+        grid-gap: 3%;
         background-color: #F5F5F5;
     }
 </style>
@@ -32,8 +37,8 @@
         <hr>
         {% for movie_genre in movie_genres %}
         <div class="recentMovieContainer">
-            <div>
-                <h2>Image</h2>
+            <div class="img-container">
+                <img src="{{movie_genre.0.poster.url}}" alt="{{movie_genre.0.title}}" width="100%">
             </div>
             <div>
                 <div>
@@ -63,7 +68,7 @@
             {% for review_movie in review_movies %}
             <div class="recentReviewsContainer">
                 <div class="review-image-container">
-                    <h2>Image</h2>
+                    <img src="{{review_movie.1.poster.url}}" alt="{{review_movie.1.title}}" width="100%">
                 </div>
                 <div class="review-body-container">
                     <h1>{{review_movie.1.title}}</h1>
