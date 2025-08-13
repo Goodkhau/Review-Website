@@ -24,7 +24,7 @@ class Movie(models.Model):
     genre_list = models.ManyToManyField(Genre, related_name='genre_list', blank=True)
     release_date = models.DateField()
     runtime = models.DurationField()
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateTimeField(auto_now_add=True)
     director = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True)
     cast = models.ManyToManyField(Person, related_name='cast', blank=True)
     crew = models.ManyToManyField(Person, related_name='crew', blank=True)
@@ -32,7 +32,7 @@ class Movie(models.Model):
 class User(AbstractBaseUser):
     username = models.CharField(max_length=40, unique=True)
     email = models.CharField(max_length=100, unique=True)
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     # verification_token
     # verification_expire
     # verification_date
@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
 class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True)
-    modified_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
     score = models.IntegerField()
     body = models.TextField(blank=True)
