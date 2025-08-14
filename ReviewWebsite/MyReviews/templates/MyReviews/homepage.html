@@ -45,11 +45,15 @@
                     <h3>{{movie_genre.0.title}}</h3>
                 </div>
                 <div>
-                    {{movie_genre.0.release_date}}
-                    {{movie_genre.0.runtime}}
-                    {% for genre in movie_genre.1 %}
-                        {{genre.name}}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
+                    <div>
+                        {{movie_genre.0.release_date}}
+                        {{movie_genre.0.runtime}}
+                    </div>
+                    <div>
+                        {% for genre in movie_genre.1 %}
+                            {{genre.name}}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
                 <div>
                     Rating: {{movie_genre.0.average_score}}
