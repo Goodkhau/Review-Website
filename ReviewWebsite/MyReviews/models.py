@@ -23,7 +23,7 @@ class Movie(models.Model):
     number_reviews = models.IntegerField(default=0)
     genre_list = models.ManyToManyField(Genre, related_name='genre_list', blank=True)
     release_date = models.DateField()
-    runtime = models.DurationField()
+    runtime = models.IntegerField()
     date_added = models.DateTimeField(auto_now_add=True)
     director = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True, blank=True)
     cast = models.ManyToManyField(Person, related_name='cast', blank=True)

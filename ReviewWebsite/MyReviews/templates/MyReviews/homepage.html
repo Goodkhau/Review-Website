@@ -46,8 +46,8 @@
                 </div>
                 <div>
                     <div>
-                        {{movie_genre.0.release_date}}
-                        {{movie_genre.0.runtime}}
+                        {{movie_genre.0.release_date|date:"Y"}}
+                        {{movie_genre.0.runtime}}m
                     </div>
                     <div>
                         {% for genre in movie_genre.1 %}
