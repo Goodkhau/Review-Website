@@ -41,9 +41,7 @@
                 <img src="{{movie_genre.0.poster.url}}" alt="{{movie_genre.0.title}}" width="100%">
             </div>
             <div>
-                <div>
-                    <h3>{{movie_genre.0.title}}</h3>
-                </div>
+                <h3><a href="{% url 'movie-page' movie_genre.0.movie_id %}">{{ movie_genre.0.title }}</a></h3>
                 <div>
                     <div>
                         {{movie_genre.0.release_date|date:"Y"}}
@@ -56,7 +54,7 @@
                     </div>
                 </div>
                 <div>
-                    Rating: {{movie_genre.0.average_score}}
+                    Rating:{% if movie_genre.2 == None %} No Reviews {% else %} movie_genre.2 {% endif %}
                 </div>
             </div>
             <div>

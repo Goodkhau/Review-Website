@@ -6,7 +6,8 @@ def homepage(request):
     movies = Movie.objects.all().order_by('-release_date')[:10]
     for movie in movies:
         genres = movie.genre_list.all().order_by('name')
-        temp = [movie, genres]
+        rating = None if movie.number_reviews == 0 else movie.total_score/movie.number_reviews
+        temp = [movie, genres, rating]
         movie_genres.append(temp)
     
     review_movies = []
@@ -21,7 +22,8 @@ def homepage(request):
 
 def moviepage(request, pk):
     movie = Movie.objects.get(movie_id=pk)
-    context = {'movie': movie}
+    rating = None if movie.number_reviews == 0 else movie.total_score/movie.number_reviews
+    context = {'movie': movie, 'rating': rating}
     return render(request, 'MyReviews/moviepage.html', context)
 
 def genrehome(request):

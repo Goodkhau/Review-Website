@@ -3,15 +3,57 @@
 {% block content %}
 
 <style>
-    .title-container {
+    .movie-page-container {
         width: 80%;
         min-width: 800px;
         margin: auto;
     }
+    .menu-container {
+        height: 50px;
+    }
+    .header-container {
+        display: flex;
+        align-items: center;
+    }
+    .title {
+        margin: 0;
+    }
+    .rating-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-left: auto; 
+        margin-right: 0;
+    }
+    .movie-metadata {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
 </style>
 
-<div class="title-container">
-    <h1>{{ movie.title }}</h1>
+<div class="movie-page-container">
+    <div class="menu-container">
+        
+    </div>
+    <div class="header-container">
+        <div>
+            <h1 class="title">{{ movie.title }}</h1>
+            {{ movie.release_date|date:"Y" }} - {{ movie.runtime }}min
+        </div>
+        <div class="rating-container">
+            <div>
+                <p>User Rating</p>
+                {% if rating == none %} No Reviews {% else %} {{rating}}/10 {% endif %}
+            </div>
+            <div>
+                <p>Your Rating</p>
+                {% if rating == none %} No Reviews {% else %} {{rating}}/10 {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="movie-metadata">
+        <img src="{{movie.poster.url}}" alt="{{movie.title}}" width="100%">
+        {{ movie.description }}
+    </div>
 </div>
 
 {% endblock %}
