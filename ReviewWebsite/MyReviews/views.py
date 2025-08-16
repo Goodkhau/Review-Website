@@ -5,7 +5,7 @@ def homepage(request):
     movie_genres = []
     movies = Movie.objects.all().order_by('-release_date')[:10]
     for movie in movies:
-        genres = movie.genre_list.all().order_by('-name')
+        genres = movie.genre_list.all().order_by('name')
         temp = [movie, genres]
         movie_genres.append(temp)
     
@@ -19,11 +19,16 @@ def homepage(request):
     context = {'review_movies': review_movies, 'movie_genres': movie_genres}
     return render(request, 'MyReviews/homepage.html', context)
 
+def moviepage(request, pk):
+    movie = Movie.objects.get(movie_id=pk)
+    context = {'movie': movie}
+    return render(request, 'MyReviews/moviepage.html', context)
+
 def genrehome(request):
     context = {}
     return render(request, 'MyReviews/genrehome.html', context)
 
-def genrepage(request):
+def genrepage(request, pk):
     genre = Genre.objects.get(id=pk)
     context = {'genre': genre}
     return render(request, 'MyReviews/genrepage.html', context)
