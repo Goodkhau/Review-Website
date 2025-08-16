@@ -24,9 +24,24 @@
         margin-left: auto; 
         margin-right: 0;
     }
+    .rating-container div p {
+        margin: 0;
+    }
     .movie-metadata {
         display: grid;
         grid-template-columns: 1fr 2fr;
+        margin-top: 10px;
+        grid-gap: 10px;
+    }
+    .movie-metadata img {
+        width: 100%;
+    }
+    .movie-metadata div h2 {
+        margin-top: 0;
+    }
+    .genre-holder {
+        display: flex;
+        flex-grow: row;
     }
 </style>
 
@@ -37,7 +52,6 @@
     <div class="header-container">
         <div>
             <h1 class="title">{{ movie.title }}</h1>
-            {{ movie.release_date|date:"Y" }} - {{ movie.runtime }}min
         </div>
         <div class="rating-container">
             <div>
@@ -50,9 +64,24 @@
             </div>
         </div>
     </div>
+    <div>
+        {{ movie.release_date|date:"Y" }} - {{ movie.runtime }}min
+    </div>
     <div class="movie-metadata">
-        <img src="{{movie.poster.url}}" alt="{{movie.title}}" width="100%">
-        {{ movie.description }}
+        <div>
+            <img src="{{movie.poster.url}}" alt="{{movie.title}}" width="100%">
+        </div>
+        <div>
+            <h2>Description</h2>
+            {{ movie.description }}
+        </div>
+        <div class="genre-holder">
+            {% for genre in genres %}
+            <div class="genre-element">
+                <a href="">{{ genre.name }}</a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
