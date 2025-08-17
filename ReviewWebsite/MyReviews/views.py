@@ -32,7 +32,7 @@ def genrehome(request):
     return render(request, 'MyReviews/genrehome.html', context)
 
 def genrepage(request, pk):
-    genre = Genre.objects.get(id=pk)
+    genre = Genre.objects.get(genre_id=pk)
     context = {'genre': genre}
     return render(request, 'MyReviews/genrepage.html', context)
 

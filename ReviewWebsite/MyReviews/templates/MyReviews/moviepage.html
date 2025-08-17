@@ -42,6 +42,16 @@
     .genre-holder {
         display: flex;
         flex-grow: row;
+        gap: 10px;
+        text-align: center;
+    }
+    .genre-element {
+        background-color: #F5F5F5;
+        padding: 10px;
+        border-color: #E2E5DE;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 15px;
     }
 </style>
 
@@ -77,9 +87,9 @@
         </div>
         <div class="genre-holder">
             {% for genre in genres %}
-            <div class="genre-element">
-                <a href="">{{ genre.name }}</a>
-            </div>
+            <a href="{% url 'genre-page' genre.genre_id %}">
+                <div class="genre-element">{{ genre.name }}</div>
+            </a>
             {% endfor %}
         </div>
     </div>
