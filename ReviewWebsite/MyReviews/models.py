@@ -21,7 +21,7 @@ class Movie(models.Model):
     poster = models.ImageField(default='fallback.png', blank=True)
     total_score = models.IntegerField(default=0)
     number_reviews = models.IntegerField(default=0)
-    genre_list = models.ManyToManyField(Genre, related_name='genre_list', blank=True)
+    genre_list = models.ManyToManyField(Genre, blank=True)
     release_date = models.DateField()
     runtime = models.IntegerField()
     date_added = models.DateTimeField(auto_now_add=True)

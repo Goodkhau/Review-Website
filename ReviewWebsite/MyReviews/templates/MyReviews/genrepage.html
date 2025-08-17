@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .genrepage-container {
+        width: 80%;
+        min-width: 800px;
+        margin: auto;
+    }
+</style>
+
+<div class="genrepage-container">
+    <h1>{{ genre.name }}</h1>
+    <h3>Description</h3>
+    {% if genre.description == '' %} <a href="">Add a description</a> {% else %} <p>{{ genre.description }}</p> {% endif %}
+    <p>{{num_movie}} Movie Releases</p>
+</div>
+
+{% endblock %}

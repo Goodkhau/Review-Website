@@ -33,7 +33,9 @@ def genrehome(request):
 
 def genrepage(request, pk):
     genre = Genre.objects.get(genre_id=pk)
-    context = {'genre': genre}
+    movies = genre.movie_set.all()
+    num_movie = movies.count()
+    context = {'genre': genre, 'movies': movies, 'num_movie': num_movie}
     return render(request, 'MyReviews/genrepage.html', context)
 
 def charthome(request):
