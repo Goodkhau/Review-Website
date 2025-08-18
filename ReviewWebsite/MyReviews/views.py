@@ -33,13 +33,14 @@ def genrehome(request):
 
 def genrepage(request, pk):
     genre = Genre.objects.get(genre_id=pk)
-    movies = genre.movie_set.all()
+    movies = genre.movie_set.all().order_by('release_date')
     num_movie = movies.count()
+    movies = movies[:10]
     context = {'genre': genre, 'movies': movies, 'num_movie': num_movie}
     return render(request, 'MyReviews/genrepage.html', context)
 
 def charthome(request):
-    movies = Movie.objects.all().order_by('-average_score')[:10]
+    movies = Movie.objects.all().order_by('')[:10]
     context = {'movies': movies}
     return render(request, 'MyReviews/chartpage.html', context)
 

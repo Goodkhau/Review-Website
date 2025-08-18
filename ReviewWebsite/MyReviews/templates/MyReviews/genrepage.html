@@ -8,13 +8,59 @@
         min-width: 800px;
         margin: auto;
     }
+    .genrepage-container-header {
+        display: grid;
+        grid-template-columns: 4fr 1fr;
+    }
+    .genrepage-container-element-grp {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 100%;
+    }
+    .genrepage-container-list {
+        display: grid;
+        grid-template-columns: 1fr 7fr 2fr;
+    }
+    .genrepage-container-list-data {
+        margin: 8px;
+    }
 </style>
 
 <div class="genrepage-container">
     <h1>{{ genre.name }}</h1>
     <h3>Description</h3>
-    {% if genre.description == '' %} <a href="">Add a description</a> {% else %} <p>{{ genre.description }}</p> {% endif %}
-    <p>{{num_movie}} Movie Releases</p>
+    {% if genre.description == '' and request.user.is_authenticated %} <a href="">Add a description</a> {% else %} <p>{{ genre.description }}</p> {% endif %}
+    <h3>Filmography</h3>
+    <p>{{ num_movie }} Movie Releases</p>
+    <hr>
+    <div class="genrepage-container-header">
+        <div>
+            Release Date
+        </div>
+        <div class="genrepage-container-element-grp">
+            <div>Avg</div>
+            <div>Rating</div>
+            <div>Reviews</div>
+        </div>
+    </div>
+    <hr>
+    {% for movie in movies %}
+    <div class="genrepage-container-list">
+        <div>
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
+        </div>
+        <div class="genrepage-container-list-data">
+            <a href="">{{ movie.title }}</a>
+            <br>
+            <a href="">{{ movie.release_date|date:"Y" }}</a>
+        </div>
+        <div class="genrepage-container-element-grp">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
