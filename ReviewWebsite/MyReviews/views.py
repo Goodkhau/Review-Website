@@ -58,3 +58,7 @@ def searchpage(request):
 def profilepage(request):
     context = {}
     return render(request, 'MyReviews/userprofile.html', context)
+
+def loginpage(request):
+    context = {}
+    return render(request, 'MyReviews/loginpage.html', context)

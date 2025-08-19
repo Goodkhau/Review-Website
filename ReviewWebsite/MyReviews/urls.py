@@ -11,4 +11,5 @@ urlpatterns = [
     path('chart/<int:pk>/', views.chartpage, name='chart-page'),
     path('search/<str:pk>/', views.searchpage, name='search-page'),
     path('profile/<int:pk>/', views.profilepage, name='profile-page'),
+    path('login/', views.loginpage, name='login-page'),
 ]
