@@ -62,3 +62,7 @@ def profilepage(request):
 def loginpage(request):
     context = {}
     return render(request, 'MyReviews/loginpage.html', context)
+
+def registerpage(request):
+    context = {}
+    return render(request, 'MyReviews/registerpage.html', context)
