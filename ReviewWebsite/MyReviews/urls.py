@@ -1,4 +1,5 @@
 from . import views
+from . import userviews
 from django.urls import path
 
 
@@ -10,7 +11,7 @@ urlpatterns = [
     path('chart/', views.charthome, name='chart-home'),
     path('chart/<int:pk>/', views.chartpage, name='chart-page'),
     path('search/<str:pk>/', views.searchpage, name='search-page'),
-    path('profile/<int:pk>/', views.profilepage, name='profile-page'),
-    path('login/', views.loginpage, name='login-page'),
-    path('register/', views.registerpage, name='register-page'),
+    path('profile/<int:pk>/', userviews.profilepage, name='profile-page'),
+    path('login/', userviews.loginpage, name='login-page'),
+    path('register/', userviews.registerpage, name='register-page'),
 ]
