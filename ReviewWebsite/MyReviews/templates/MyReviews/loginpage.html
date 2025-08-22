@@ -28,6 +28,13 @@
 <div class="loginpage">
     <div class="loginpage-container">
         <h2>Login</h2>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form action="" method="POST">
             {% csrf_token %}
             <label for="username">Username</label>

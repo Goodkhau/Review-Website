@@ -1,17 +1,39 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from .userform import RegistrationForm
+from .models import User
 
 def profilepage(request):
     context = {}
     return render(request, 'MyReviews/userprofile.html', context)
 
 def loginpage(request):
-    context = {}
-    return render(request, 'MyReviews/loginpage.html', context)
+    if request.user.is_authenticated:
+        return redirect('home-page')
+
+    if not request.POST:
+        context = {}
+        return render(request, 'MyReviews/loginpage.html', context)
+    
+    username = request.POST["username"]
+    password = request.POST["password"]
+
+    try:
+        user = User.objects.get(username=username)
+    except:
+        messages.error(request, 'User does not exist')
+    
+    user = authenticate(request, username=username, password=password)
+
+    if user is None:
+        messages.error(request, 'Username or Password does not exist.')
+    
+    login(request, user)
+    return redirect('home-page')
 
 def registerpage(request):
-    form = RegistrationForm()
+    form = RegistrationForm
 
     if not request.POST:
         context = {'form': form}
