@@ -24,7 +24,7 @@ def loginpage(request):
     except:
         messages.error(request, 'User does not exist')
     
-    user = authenticate(request, username=username, password=password)
+    user = authenticate(username=username, password=password)
 
     if user is None:
         messages.error(request, 'Username or Password does not exist.')
