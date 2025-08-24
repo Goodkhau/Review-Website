@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Movie, Review, Genre, User
+from django.db.models import Q
+from .models import Movie, Review, Genre, User, Person
 
 def homepage(request):
     movie_genres = []
@@ -52,5 +53,15 @@ def chartpage(request):
     return render(request, 'MyReviews/chartpage.html', context)
 
 def searchpage(request):
-    context = {}
+    q = request.GET.get('search_query') if request.GET.get('search_query') != None else ''
+    movies = Movie.objects.filter (
+        Q(title__icontains=q)
+    )[:5]
+    people = Person.objects.filter (
+        Q(name__icontains=q)
+    )[:5]
+    users = User.objects.filter (
+        Q(username__icontains=q)
+    )[:5]
+    context = {'movies': movies, 'people': people, 'users': users}
     return render(request, 'MyReviews/searchpage.html', context)

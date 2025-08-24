@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .searchpage-container {
+        width: 80%;
+        min-width: 800px;
+        margin: auto;
+    }
+</style>
+
+<div class="searchpage-container">
+    <div class="searchpage-container-element">
+        {% for movie in movies %}
+        {{ movie.title }}
+        {% endfor %}
+    </div>
+    <div class="searchpage-container-element">
+        {% for person in people %}
+        {{ person.name }}
+        {% endfor %}
+    </div>
+    <div class="searchpage-container-element">
+        {% for user in users %}
+        {{ user.username }}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -43,7 +43,7 @@
         margin-left: 1%;
         margin-right: 1%;
     }
-    .searchBar input {
+    .searchBar form input {
         border: 0;
         width: 100%;
         height: 24px;
@@ -71,7 +71,10 @@
                 </a>
             </div>
             <div class="searchBar">
-                <input type="text" placeholder="Search"/>
+                <form action="{% url 'search-page' %}" method="GET">
+                    <input type="text" name="search_query" placeholder="Search"/>
+                    <input type="submit" value="Submit" style="display: none;">
+                </form>
             </div>
             <div class="signinContainer">
                 {% if request.user.is_authenticated %}
