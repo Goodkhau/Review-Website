@@ -74,9 +74,15 @@
                 <input type="text" placeholder="Search"/>
             </div>
             <div class="signinContainer">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}">
+                    <div class="navButton">Logout</div>
+                </a>
+                {% else %}
                 <a href="{% url 'login-page' %}">
                     <div class="navButton">Signin</div>
                 </a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('You did not enter an email address')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 

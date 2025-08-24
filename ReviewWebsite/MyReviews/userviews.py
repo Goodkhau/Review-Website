@@ -32,6 +32,13 @@ def loginpage(request):
     login(request, user)
     return redirect('home-page')
 
+def logoutrequest(request):
+    if not request.user.is_authenticated:
+        return redirect('login-page')
+    
+    logout(request)
+    return redirect('home-page')
+
 def registerpage(request):
     form = RegistrationForm
 
