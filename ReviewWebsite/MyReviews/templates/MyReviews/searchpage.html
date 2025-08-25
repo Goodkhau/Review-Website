@@ -8,22 +8,48 @@
         min-width: 800px;
         margin: auto;
     }
+    .searchpage-container-element {
+        width: 100%;
+    }
+    .searchpage-container-element-grp {
+        display: grid;
+        grid-template-columns: 1fr 9fr;
+        border-radius: 16px;
+        padding: 12px;
+        margin: 8px;
+        background-color: #F5F5F5;
+    }
 </style>
 
 <div class="searchpage-container">
+    <h1>Movies</h1>
+    <hr>
     <div class="searchpage-container-element">
         {% for movie in movies %}
-        {{ movie.title }}
+        <div class="searchpage-container-element-grp">
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
+            {{ movie.title }}
+        </div>
         {% endfor %}
     </div>
+
+    <h1>Cast/Crew</h1>
+    <hr>
     <div class="searchpage-container-element">
         {% for person in people %}
-        {{ person.name }}
+        <div class="searchpage-container-element-grp">
+            {{ person.name }}
+        </div>
         {% endfor %}
     </div>
+
+    <h1>Users</h1>
+    <hr>
     <div class="searchpage-container-element">
         {% for user in users %}
-        {{ user.username }}
+        <div class="searchpage-container-element-grp">
+            {{ user.username }}
+        </div>
         {% endfor %}
     </div>
 </div>

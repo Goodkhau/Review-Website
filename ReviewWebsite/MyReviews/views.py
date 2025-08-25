@@ -45,7 +45,7 @@ def charthome(request):
     context = {'movies': movies}
     return render(request, 'MyReviews/chartpage.html', context)
 
-def chartpage(request):
+def chartpage(request, pk):
     start = (pk-1)*10
     end = pk*10
     movies = Movie.objects.all().order_by('-average_score')[start:end]
