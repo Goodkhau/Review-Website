@@ -1,57 +1,42 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<style>
-    .searchpage-container {
-        width: 80%;
-        min-width: 800px;
-        margin: auto;
-    }
-    .searchpage-container-element {
-        width: 100%;
-    }
-    .searchpage-container-element-grp {
-        display: grid;
-        grid-template-columns: 1fr 9fr;
-        border-radius: 16px;
-        padding: 12px;
-        margin: 8px;
-        background-color: #F5F5F5;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'styles/searchpage.css' %}">
 
 <div class="searchpage-container">
     <h1>Movies</h1>
     <hr>
-    <div class="searchpage-container-element">
+    <section class="searchpage-container-element">
         {% for movie in movies %}
         <div class="searchpage-container-element-grp">
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
             {{ movie.title }}
         </div>
         {% endfor %}
-    </div>
+    </section>
 
     <h1>Cast/Crew</h1>
     <hr>
-    <div class="searchpage-container-element">
+    <section class="searchpage-container-element">
         {% for person in people %}
         <div class="searchpage-container-element-grp">
             {{ person.name }}
         </div>
         {% endfor %}
-    </div>
+    </section>
 
     <h1>Users</h1>
     <hr>
-    <div class="searchpage-container-element">
+    <section class="searchpage-container-element">
         {% for user in users %}
         <div class="searchpage-container-element-grp">
             {{ user.username }}
         </div>
         {% endfor %}
-    </div>
+    </section>
 </div>
 
 {% endblock %}

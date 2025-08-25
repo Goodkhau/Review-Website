@@ -2,33 +2,7 @@
 
 {% block content %}
 
-<style>
-    .genrepage-container {
-        width: 80%;
-        min-width: 800px;
-        margin: auto;
-    }
-    .genrepage-container-header {
-        display: grid;
-        grid-template-columns: 4fr 1fr;
-    }
-    .genrepage-container-element-grp {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        width: 100%;
-    }
-    .genrepage-container-list {
-        display: grid;
-        grid-template-columns: 1fr 7fr 2fr;
-        margin: 8px;
-        padding-left: 15px;
-        background-color: #F5F5F5;
-        border-radius: 16px;
-    }
-    .genrepage-container-list-data {
-        margin: 8px;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'styles/genrepage.css' %}">
 
 <div class="genrepage-container">
     <h1>{{ genre.name }}</h1>

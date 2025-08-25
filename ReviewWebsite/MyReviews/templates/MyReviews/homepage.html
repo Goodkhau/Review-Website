@@ -2,34 +2,7 @@
 
 {% block content %}
 
-<style>
-    .homepageContainer{
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-gap: 4%;
-        padding: 4%;
-    }
-    .recentReviews {
-        display: grid;
-        grid-gap: 4%;
-    }
-    .recentMovieContainer {
-        display: grid;
-        padding: 3%;
-        grid-gap: 3%;
-        grid-template-columns: 1fr 2fr;
-    }
-    .img-container {
-        height: auto;
-    }
-    .recentReviewsContainer {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        padding: 3%;
-        grid-gap: 3%;
-        background-color: #F5F5F5;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'styles/homepage.css' %}">
 
 <div class="homepageContainer">
     <section class="recentlyAdded">

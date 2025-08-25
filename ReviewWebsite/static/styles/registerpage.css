@@ -1,0 +1,20 @@
+.registerpage {
+    display: flex;
+    margin: auto;
+    width: 30%;
+    height: 90vh;
+    align-items: center;
+}
+.registerpage-container {
+    width: 100%;
+    padding: 28px;
+    background-color: #F5F5F5;
+    border-radius: 15px;
+}
+.registerpage-container form input {
+    width: 100%;
+    box-sizing: border-box;
+}
+.registerpage-container form button {
+    width: 100%;
+}

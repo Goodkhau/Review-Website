@@ -1,0 +1,16 @@
+.searchpage-container {
+    width: 80%;
+    min-width: 800px;
+    margin: auto;
+}
+.searchpage-container-element {
+    width: 100%;
+}
+.searchpage-container-element-grp {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    border-radius: 16px;
+    padding: 12px;
+    margin: 8px;
+    background-color: #F5F5F5;
+}

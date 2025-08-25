@@ -1,59 +1,10 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<style>
-    .movie-page-container {
-        width: 80%;
-        min-width: 800px;
-        margin: auto;
-    }
-    .menu-container {
-        height: 50px;
-    }
-    .header-container {
-        display: flex;
-        align-items: center;
-    }
-    .title {
-        margin: 0;
-    }
-    .rating-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        margin-left: auto; 
-        margin-right: 0;
-    }
-    .rating-container div p {
-        margin: 0;
-    }
-    .movie-metadata {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        margin-top: 10px;
-        grid-gap: 10px;
-    }
-    .movie-metadata img {
-        width: 100%;
-    }
-    .movie-metadata div h2 {
-        margin-top: 0;
-    }
-    .genre-holder {
-        display: flex;
-        flex-grow: row;
-        gap: 10px;
-        text-align: center;
-    }
-    .genre-element {
-        background-color: #F5F5F5;
-        padding: 10px;
-        border-color: #E2E5DE;
-        border-width: 2px;
-        border-style: solid;
-        border-radius: 15px;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'styles/moviepage.css' %}">
 
 <div class="movie-page-container">
     <div class="menu-container">
