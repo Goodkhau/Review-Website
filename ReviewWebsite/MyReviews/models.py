@@ -12,7 +12,7 @@ class Person(models.Model):
     birth = models.DateField(blank=True)
     death = models.DateField(blank=True)
     biography = models.TextField(blank=True)
-    picture = models.ImageField(default='fallback.png', blank=True)
+    picture = models.ImageField(default='profilefallback.png', blank=True)
 
 class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
@@ -52,7 +52,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=40, unique=True)
     email = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    picture = models.ImageField(default='fallback.png', blank=True)
+    picture = models.ImageField(default='profilefallback.png', blank=True)
     # verification_token
     # verification_expire
     # verification_date
