@@ -1,11 +1,25 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<div>
-    {% for movie in movies %}
-        {{movie.title}}
-    {% endfor %}
+<link rel="stylesheet" href="{% static 'styles/chartpage.css' %}">
+
+<div class="chartpage-container">
+    <div class="chartpage-container-element">
+        <h1>Best movies</h1>
+        <hr>
+        {% for movie in movies %}
+        <div class="chartpage-container-element-grp">
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
+            {{ movie.title }}
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h2>Filter</h2>
+    </div>
 </div>
 
 {% endblock %}

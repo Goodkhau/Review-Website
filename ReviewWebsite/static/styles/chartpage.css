@@ -1,0 +1,18 @@
+.chartpage-container {
+    width: 80%;
+    min-width: 800px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.chartpage-container-element {
+    width: 100%;
+}
+.chartpage-container-element-grp {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    border-radius: 16px;
+    padding: 12px;
+    margin: 8px;
+    background-color: #F5F5F5;
+}
