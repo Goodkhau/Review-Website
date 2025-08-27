@@ -13,7 +13,7 @@
         {% for movie in movies %}
         <div class="chartpage-container-element-grp">
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
-            {{ movie.title }}
+            <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
         </div>
         {% endfor %}
     </div>
