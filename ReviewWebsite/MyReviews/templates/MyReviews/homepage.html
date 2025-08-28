@@ -19,7 +19,7 @@
                 <h3><a href="{% url 'movie-page' movie_genre.0.movie_id %}">{{ movie_genre.0.title }}</a></h3>
                 <div>
                     <div>
-                        {{movie_genre.0.release_date|date:"Y"}}
+                        <a href="{% url 'chart-page' movie_genre.0.release_date|date:'Y' 1 %}">{{movie_genre.0.release_date|date:"Y"}}</a>
                         {{movie_genre.0.runtime}}m
                     </div>
                     <div>

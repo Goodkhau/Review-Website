@@ -59,6 +59,16 @@ def chartpage_yr(request, yr, pk):
     context = {'movies': movies}
     return render(request, 'MyReviews/chartpage.html', context)
 
+def chartpage_range(request, yr1, yr2, pk):
+    start = (pk-1)*10
+    end = pk*10
+    movies = Movie.objects.filter(
+        Q(release_date__year__gte=yr1),
+        Q(release_date__year__lte=yr2)
+    ).order_by('-average_score')[start:end]
+    context = {"movies": movies}
+    return render(request, 'MyReviews/chartpage.html', context)
+
 def searchpage(request):
     q = request.GET.get('search_query') if request.GET.get('search_query') != None else ''
     movies = Movie.objects.filter (
