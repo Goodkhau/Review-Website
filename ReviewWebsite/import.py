@@ -4,6 +4,7 @@ from decouple import config
 db = MySQLdb.connect(host=config('HOST'), user=config('DB_USER'), 
     password=config('DB_PASS'), database=config('DATABASE'))
 
+
 def main():
     print("Select an option.")
     print("1. Import movie data")
@@ -32,3 +33,6 @@ def ImportMovies():
     if debug == "Y":
         for line in data:
             print(line)
+
+if __name__ == "__main__":
+    main()
