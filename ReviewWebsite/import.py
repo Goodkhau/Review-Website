@@ -36,36 +36,52 @@ def ImportMovies():
         i = 0
         for line in data:
             print(line)
+    
     split = input("Decode the data? (Y/N)\n")
     rows = []
     if (split == "Y"):
         for line in data:
-            row = []
-            L=0
-            for i in range(len(line)):
-                if (line[i] == ','):
-                    row.append(line[L:i])
-                    L=i+1
-                if (line[i] == '"'):
-                    i+=1
-                    L=i
-                    while(line[i] != '"'):
-                        i+=1
-                    row.append(line[L:i])
-            row.append(line[L:])
-            rows.append(row)
+            rows.append(parseline(line))
         
         check = input("Check decoded data? (Y/N)\n")
-        if (input == "Y"):
+        if (check == "Y"):
+            c = 0
             for row in rows:
-                print(rows[1])
+                for i in range(len(row)):
+                    print(str(i) + ": " + row[i])
+                c+=1
+                if (c==4):
+                    break
     else:
         return
+
     insert = input("Insert the data? (Y/N)\n")
     if insert == "Y":
         for line in data:
             print(line)
-    
+
+def parseline(line):
+    row = []
+    L=0
+    i=0
+    while i < len(line):
+        if (line[i] == ','):
+            row.append(line[L:i])
+            L=i+1
+        if (line[i] == '"'):
+            i+=1
+            L=i
+            while line[i] != '"':
+                i+=1
+                if i >= len(line):
+                    i-=1
+                    break
+            row.append(line[L:i])
+            i+=1
+            L=i+1
+        i+=1
+    row.append(line[L:])
+    return row
 
 if __name__ == "__main__":
     main()
