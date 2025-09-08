@@ -121,6 +121,7 @@ def specificQuery(type, row, qry_str, debug):
         case "genre_movie":
             try:
                 ## ParseJson
+                ## Check if movie is in db, return if not
                 ## Check if genre is in db, insert if not
                 ## Regardless of last if, insert genre movie into genre_movie_list
                 cur.execute(qry_str,) ## Input values from row, likely row 3 genre and 8 title
@@ -142,7 +143,7 @@ def importGenreMovieRelation():
     debugData(data)
     rows = decodeMovieMetaData(data)
     generateQueryStr(
-        "INSERT INTO myreviews_", ## Complete query str.
+        "INSERT INTO myreviews_movie_genre_list (movie_id, genre_id) VALUES (%s, %s)",
         rows,
         "genre_movie"
     )
