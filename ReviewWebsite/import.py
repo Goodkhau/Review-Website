@@ -7,11 +7,16 @@ db = MySQLdb.connect(host=config('HOST'), user=config('DB_USER'),
     password=config('DB_PASS'), database=config('DATABASE'))
 cur = db.cursor()
 
+error_count = 0
+accepted_count = 0
+auto_increment = 1
+
 
 def main():
     print("Select an option.")
     print("You can find the data in: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv")
     print("1. Import movie data")
+    print("2. Import movie_genre_list")
     selection = 0
     while selection == 0:
         try:
@@ -22,6 +27,8 @@ def main():
     match selection:
         case 1:
             ImportMovies()
+        case 2:
+            importGenreMovieRelation()
     
 def openFile(fileDir):
     has_file = False
@@ -94,16 +101,16 @@ def decodeMovieMetaData(data):
     return rows
 
 def generateQueryStr(qry_str, rows, type):
+    global error_count, accepted_count
     insert = input("Insert the data? (Y/N)\n")
     if insert == "Y":
         debug = input("Would you like to see the errors? (Y/N)\n")
-        error_count = 0
-        accepted_count = 0
         for row in rows:
             specificQuery(type, row, qry_str, debug)
         print("There were " + str(error_count) + " errors and " + str(accepted_count) + " accepted.")
 
 def specificQuery(type, row, qry_str, debug):
+    global error_count, accepted_count, auto_increment
     match type:
         case "movie_data":
             try:
@@ -118,25 +125,48 @@ def specificQuery(type, row, qry_str, debug):
                 if (debug == 'Y'):
                     print("Error for: ", end="")
                     print(row)
-        case "genre_movie":
+        case "genre":
             try:
-                ## ParseJson
-                ## Check if movie is in db, return if not
-                ## Check if genre is in db, insert if not
-                ## Regardless of last if, insert genre movie into genre_movie_list
-                cur.execute(qry_str,) ## Input values from row, likely row 3 genre and 8 title
+                row[3] = row[3].replace("'", '"')
+                JSON = json.loads(row[3])
+                for element in JSON:
+                    cur.execute("SELECT * FROM myreviews_genre WHERE genre_id = %s", (element["id"],))
+                    if cur.fetchone() == None:
+                        cur.execute("INSERT INTO myreviews_genre (genre_id, name, description) VALUES (%s, %s, %s)", (element["id"], element["name"], " "))
                 accepted_count+=1
             except:
                 error_count+=1
-                if (debug == 'Y'):
-                    print("Error for: ", end="")
-                    print(row)
+                print("Error for: ", end="")
+                print(row)
+        case "movie_genre":
+            try:
+                cur.execute("SELECT * FROM myreviews_movie WHERE movie_id = %s", (row[5],))
+                if cur.fetchone() == None:
+                    cur.fetchall()
+                    print(row[8] + " is not in the database")
+                    return
+                cur.fetchall()
+                row[3] = row[3].replace("'", '"')
+                JSON = json.loads(row[3])
+                for element in JSON:
+                    cur.execute("SELECT * FROM myreviews_genre WHERE genre_id = %s", (element["id"],))
+                    if cur.fetchone() == None:
+                        cur.fetchall()
+                        continue
+                    cur.fetchall()
+                    cur.execute(qry_str, (row[5], element["id"]))
+            except:
+                error_count+=1
+                print("Error for: ", end="")
+                print(row)
+
 
 def commitPrompt():
     commit = input("Commit the queries? (Y/N)\n")
     if commit == 'Y':
-        cur.commit()
+        db.commit()
     cur.close()
+    db.close()
 
 def importGenreMovieRelation():
     data = openFile("/movies_metadata.csv")
@@ -145,7 +175,12 @@ def importGenreMovieRelation():
     generateQueryStr(
         "INSERT INTO myreviews_movie_genre_list (movie_id, genre_id) VALUES (%s, %s)",
         rows,
-        "genre_movie"
+        "genre"
+    )
+    generateQueryStr(
+        "INSERT INTO myreviews_movie_genre_list (movie_id, genre_id) VALUES (%s, %s)",
+        rows,
+        "movie_genre"
     )
     commitPrompt()
 
