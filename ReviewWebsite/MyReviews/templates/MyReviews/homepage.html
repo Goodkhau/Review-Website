@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         {% for genre in movie_genre.1 %}
-                            {{genre.name}}{% if not forloop.last %}, {% endif %}
+                            <a href="{% url 'genre-page' genre.genre_id %}">{{genre.name}}</a>{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </div>
                 </div>

@@ -1,0 +1,24 @@
+a {
+    text-decoration: none;
+}
+a:visited {
+    color: #676767;
+}
+a:hover {
+    color: #B2BEB5;
+}
+a:link {
+    color: #676767;
+}
+h1 {
+    color: #676767;
+}
+h2 {
+    color: #676767;
+}
+h3 {
+    color: #676767;
+}
+p {
+    color: #676767;
+}
