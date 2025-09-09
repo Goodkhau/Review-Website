@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .userform import RegistrationForm
 from .models import User
 
-def profilepage(request):
+def profilepage(request, pk):
     context = {}
     return render(request, 'MyReviews/userprofile.html', context)
 

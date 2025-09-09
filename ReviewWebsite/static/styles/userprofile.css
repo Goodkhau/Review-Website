@@ -1,0 +1,16 @@
+.profilepage-container {
+    width: 90%;
+    min-width: 800px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 20px;
+}
+.profilepage-container-user {
+    background-color: #F5F5F5;
+}
+.profilepage-container-misc {
+    background-color: #F5F5F5;
+    margin-left: 12px;
+    margin-right: 12px;
+}
