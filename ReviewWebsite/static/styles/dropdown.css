@@ -11,19 +11,15 @@
     height: 100%;
 }
 .dropdown-content {
-    background-color: white;
-    position: absolute;
     display: none;
+    position: absolute;
+    background-color: white;
     min-width: 40px;
-    z-index: 20;
 }
 .dropdown-btn:hover {
     background-color: #F5F5F5;
 }
-.dropdown-btn:hover + .dropdown-content {
-    display: block;
-}
-.dropdown-content a + .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: block;
 }
 .dropdown-content a:hover {
