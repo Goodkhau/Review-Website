@@ -9,7 +9,7 @@
 <div class="genrepage-container">
     <h1>{{ genre.name }}</h1>
     <h3>Description</h3>
-    {% if genre.description == '' and request.user.is_authenticated %} <a href="">Add a description</a> 
+    {% if genre.description == ' ' and request.user.is_authenticated %} <a href="">Add a description</a> 
     {% else %} <p>{{ genre.description }}</p> {% endif %}
     <h3>Filmography</h3>
     <p>{{ num_movie }} Movie Releases</p>
@@ -31,9 +31,9 @@
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
         </div>
         <div class="genrepage-container-list-data">
-            <a href="">{{ movie.title }}</a>
+            <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
             <br>
-            <a href="">{{ movie.release_date|date:"Y" }}</a>
+            <a href="{% url 'chart-page' movie.release_date|date:'Y' 1 %}">{{ movie.release_date|date:"Y" }}</a>
         </div>
         <div class="genrepage-container-element-grp">
             <div></div>
