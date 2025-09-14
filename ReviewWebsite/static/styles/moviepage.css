@@ -36,6 +36,7 @@
 }
 .genre-holder {
     display: flex;
+    flex-wrap: wrap;
     flex-grow: row;
     gap: 10px;
     text-align: center;
