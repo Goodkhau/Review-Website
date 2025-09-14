@@ -16,7 +16,7 @@
     border-top-right-radius: 16px;
     width: 100%;
     height: 200px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 .profilepage-container-user-profilepic {
     position: relative;
@@ -41,8 +41,23 @@
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     width: 100%;
-    height: 400px;
-    margin-top: 6px;
+    height: auto;
+    margin-top: 4px;
+}
+.profilepage-container-user-aboutme h1 {
+    padding-top: 60px;
+}
+.profilepage-container-user-aboutme h1, h2, h3 {
+    margin: 0;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+.profilepage-container-user-reviews {
+    background-color: #F5F5F5;
+    border-radius: 16px;
+}
+.profilepage-container-user-reviews h3 {
+    padding-top: 20px;
 }
 .profilepage-container-misc {
     background-color: #F5F5F5;

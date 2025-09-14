@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .userform import RegistrationForm
-from .models import User
+from .models import User, Review
 
 def profilepage(request, pk):
-    context = {}
+    reviews = Review.objects.get(reviewer=pk)
+    context = {'reviews': reviews}
     return render(request, 'MyReviews/userprofile.html', context)
 
 def loginpage(request):
