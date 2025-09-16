@@ -1,3 +1,6 @@
+p {
+    margin: 0;
+}
 .loginpage {
     display: flex;
     margin: auto;
@@ -11,10 +14,16 @@
     background-color: #F5F5F5;
     border-radius: 15px;
 }
+.loginpage-container form label {
+    margin-top: 10px;
+}
 .loginpage-container form input {
+    margin-bottom: 10px;
     width: 100%;
     box-sizing: border-box;
 }
 .loginpage-container form button {
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 100%;
 }
