@@ -1,8 +1,12 @@
+li {
+    color: #676767;
+}
 .registerpage {
     display: flex;
     margin: auto;
+    min-width: 350px;
     width: 30%;
-    height: 90vh;
+    height: 120vh;
     align-items: center;
 }
 .registerpage-container {
@@ -14,7 +18,5 @@
 .registerpage-container form input {
     width: 100%;
     box-sizing: border-box;
-}
-.registerpage-container form button {
-    width: 100%;
+    color: #676767;
 }
