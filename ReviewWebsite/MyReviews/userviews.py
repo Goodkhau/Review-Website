@@ -5,7 +5,8 @@ from .userform import RegistrationForm
 from .models import User, Review
 
 def profilepage(request, pk):
-    reviews = Review.objects.get(reviewer=pk)
+    user = User.objects.get(id=pk)
+    reviews = user.review_set.all()
     context = {'reviews': reviews}
     return render(request, 'MyReviews/userprofile.html', context)
 
