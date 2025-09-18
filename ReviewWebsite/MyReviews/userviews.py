@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from .userform import RegistrationForm
 from .tokens import account_activation_token
-from .models import User, Review
+from .models import User
 
 def profilepage(request, pk):
     user = User.objects.get(id=pk)
@@ -73,7 +73,7 @@ def registerpage(request):
             mail_subject, message, to=[to_email]
         )
         email.send()
-        return redirect('login-page')
+        return HttpResponse('Your account activation link has been sent.\nYou can close this tab.')
     else:
         message = "Form was invalid"
         context = {'message': message, 'form': form}
@@ -81,16 +81,19 @@ def registerpage(request):
     
 def activate(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
+        uid = int(force_str(urlsafe_base64_decode(uidb64)))
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is None:
+        return HttpResponse('User does not exist!')
+
+    if account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('homepage')
+        return redirect('home-page')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse('Token is invalid!')
     
