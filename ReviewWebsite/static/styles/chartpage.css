@@ -1,3 +1,9 @@
+p {
+    margin: 0;
+}
+#title {
+    margin-left: 15px;
+}
 .chartpage-container {
     width: 80%;
     min-width: 800px;
@@ -8,11 +14,19 @@
 .chartpage-container-element {
     width: 100%;
 }
+.chartpage-container-element-header {
+    display: grid;
+    grid-template-columns: 3fr 15fr 2fr 2fr 2fr;
+}
 .chartpage-container-element-grp {
     display: grid;
-    grid-template-columns: 1fr 9fr;
+    grid-template-columns: 3fr 15fr 6fr;
     border-radius: 16px;
-    padding: 12px;
     margin: 8px;
+    padding: 12px;
     background-color: #F5F5F5;
+}
+.chartpage-container-element-grp-img {
+    margin-left: 10px;
+    margin-right: 10px;
 }

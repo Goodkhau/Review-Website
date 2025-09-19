@@ -10,10 +10,25 @@
     <div class="chartpage-container-element">
         <h1>Best Movies{{ year_str }}</h1>
         <hr>
+        <div class="chartpage-container-element-header">
+            <p id="title">Movie</p>
+            <p id="title">Title</p>
+            <p>Avg</p>
+            <p>Rating</p>
+            <p>Review</p>
+        </div>
+        <hr>
         {% for movie in movies %}
         <div class="chartpage-container-element-grp">
-            <a href="{% url 'movie-page' movie.movie_id %}"><img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%"></a>
-            <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
+            <div class="chartpage-container-element-grp-img">
+                <a href="{% url 'movie-page' movie.movie_id %}"><img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%"></a>
+            </div>
+            <div class="chartpage-container-element-grp-metadata">
+                <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
+            </div>
+            <div class="chartpage-container-element-grp-reviewdata">
+
+            </div>
         </div>
         {% endfor %}
     </div>
