@@ -42,21 +42,24 @@ def genrepage(request, pk):
 
 def charthome(request):
     movies = Movie.objects.all().order_by('-average_score')[:10]
-    context = {'movies': movies}
+    year_str = str(" of All Time")
+    context = {'movies': movies, 'year_str': year_str}
     return render(request, 'MyReviews/chartpage.html', context)
 
 def chartpage(request, pk):
     start = (pk-1)*10
     end = pk*10
     movies = Movie.objects.all().order_by('-average_score')[start:end]
-    context = {'movies': movies}
+    year_str = str(" of All Time")
+    context = {'movies': movies, 'year_str': year_str}
     return render(request, 'MyReviews/chartpage.html', context)
 
 def chartpage_yr(request, yr, pk):
     start = (pk-1)*10
     end = pk*10
     movies = Movie.objects.filter(Q(release_date__year=yr)).order_by('-average_score')[start:end]
-    context = {'movies': movies}
+    year_str = " of " + str(yr)
+    context = {'movies': movies, 'year_str': year_str}
     return render(request, 'MyReviews/chartpage.html', context)
 
 def chartpage_range(request, yr1, yr2, pk):
@@ -66,7 +69,8 @@ def chartpage_range(request, yr1, yr2, pk):
         Q(release_date__year__gte=yr1),
         Q(release_date__year__lte=yr2)
     ).order_by('-average_score')[start:end]
-    context = {"movies": movies}
+    year_str = " of " + str(yr1) + " - " + str(yr2)
+    context = {"movies": movies, "year_str": year_str}
     return render(request, 'MyReviews/chartpage.html', context)
 
 def searchpage(request):
