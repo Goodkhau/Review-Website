@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'MyReviews.apps.MyreviewsConfig',
+    'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
