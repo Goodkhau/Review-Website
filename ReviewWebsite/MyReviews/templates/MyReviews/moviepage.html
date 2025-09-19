@@ -17,11 +17,11 @@
         <div class="rating-container">
             <div>
                 <p>User Rating</p>
-                {% if rating == none %} No Reviews {% else %} {{rating}}/10 {% endif %}
+                {% if rating == none %} <p>No Reviews</p> {% else %} <p>{{rating}}/10</p> {% endif %}
             </div>
             <div>
                 <p>Your Rating</p>
-                {% if rating == none %} No Reviews {% else %} {{rating}}/10 {% endif %}
+                {% if rating == none %} <p>No Review</p> {% else %} <p>{{rating}}/10</p> {% endif %}
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
         </div>
         <div>
             <h2>Description</h2>
-            {{ movie.description }}
+            <p>{{ movie.description }}</p>
         </div>
         <div class="genre-holder">
             {% for genre in genres %}
