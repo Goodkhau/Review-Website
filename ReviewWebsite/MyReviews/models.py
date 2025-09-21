@@ -63,8 +63,8 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["email"]
 
 class Review(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
-    reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.OneToOneField(Movie, on_delete=models.SET_NULL, null=True)
+    reviewer = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     score = models.IntegerField()
