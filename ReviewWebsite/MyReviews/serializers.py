@@ -25,4 +25,4 @@ class MovieSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.Serializer):
     class Meta:
         model = Review
-        fields = ('movie', 'reviewer', 'created_at', 'modified_at', 'score', 'body')
+        fields = ['review_id', 'movie', 'reviewer', 'created_at', 'modified_at', 'score', 'body']

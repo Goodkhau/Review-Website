@@ -12,7 +12,7 @@ from .models import User
 
 def profilepage(request, pk):
     user = User.objects.get(id=pk)
-    reviews = user.review_set.all()
+    reviews = user.reviewer.all()
     context = {'reviews': reviews}
     return render(request, 'MyReviews/userprofile.html', context)
 

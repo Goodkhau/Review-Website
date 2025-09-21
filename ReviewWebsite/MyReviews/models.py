@@ -36,7 +36,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('You did not enter an email address')
 
         email = self.normalize_email(email)
-        user = self.model(username=username, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
@@ -63,8 +63,9 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["email"]
 
 class Review(models.Model):
-    movie = models.OneToOneField(Movie, on_delete=models.SET_NULL, null=True)
-    reviewer = models.OneToOneField(User, on_delete=models.CASCADE)
+    review_id = models.IntegerField(primary_key=True)
+    movie = models.ForeignKey(Movie, related_name='movie', on_delete=models.SET_NULL, null=True)
+    reviewer = models.ForeignKey(User, related_name='reviewer', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     score = models.IntegerField()
