@@ -22,7 +22,7 @@ class MovieSerializer(serializers.ModelSerializer):
                   'runtime', 'date_added', 'director', 
                   'cast', 'crew']
         
-class ReviewSerializer(serializers.Serializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['review_id', 'movie', 'reviewer', 'created_at', 'modified_at', 'score', 'body']
