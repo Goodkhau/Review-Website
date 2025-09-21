@@ -1,5 +1,6 @@
 from . import views
 from . import userviews
+from . import RESTfulAPI
 from django.urls import path
 
 
@@ -13,9 +14,15 @@ urlpatterns = [
     path('chart/<int:yr>/<int:pk>/', views.chartpage_yr, name='chart-page'),
     path('chart/<int:yr1>-<int:yr2>/<int:pk>/', views.chartpage_range, name='chart-page'),
     path('search/', views.searchpage, name='search-page'),
+
     path('profile/<int:pk>/', userviews.profilepage, name='profile-page'),
     path('login/', userviews.loginpage, name='login-page'),
     path('logout/', userviews.logoutrequest, name='logout'),
     path('register/', userviews.registerpage, name='register-page'),
     path('activate/<str:uidb64>/<str:token>/', userviews.activate, name='activate'),
+
+    path('api/v1/create-person/', RESTfulAPI.CreatePerson.as_view(), name='api-create-person'),
+    path('api/v1/create-review/', RESTfulAPI.CreateReview.as_view(), name='api-create-review'),
+    path('api/v1/create-genre/', RESTfulAPI.CreateGenre.as_view(), name='api-create-genre'),
+    path('api/v1/create-movie/', RESTfulAPI.CreateMovie.as_view(), name='api-create-movie'),
 ]
