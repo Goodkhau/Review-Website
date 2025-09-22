@@ -1,3 +1,9 @@
+h1 {
+    margin: 0;
+}
+p {
+    margin: 0;
+}
 .profilepage-container {
     width: 90%;
     min-width: 800px;
@@ -35,32 +41,47 @@
     border-color: white;
     border-style: solid;
 }
+.element-edit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+.element-edit div {
+    background-color: #F5F5F5;
+    border-radius: 25%;
+    padding: 6px;
+    margin-left: auto;
+}
+.element-edit div:hover {
+    background-color: #808080;
+}
 .profilepage-container-user-aboutme {
     position: relative;
     background-color: #F5F5F5;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
-    width: 100%;
-    height: auto;
     margin-top: 4px;
-}
-.profilepage-container-user-aboutme h1 {
+    padding: 30px;
+    padding-bottom: 10px;
     padding-top: 60px;
-}
-.profilepage-container-user-aboutme h1, h2, h3 {
-    margin: 0;
-    margin-left: 30px;
-    margin-bottom: 10px;
 }
 .profilepage-container-user-reviews {
     background-color: #F5F5F5;
     border-radius: 16px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 10px;
 }
-.profilepage-container-user-reviews h3 {
-    padding-top: 20px;
+.profilepage-container-user-movies {
+    background-color: #F5F5F5;
+    border-radius: 16px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 10px;
 }
 .profilepage-container-misc {
-    background-color: #F5F5F5;
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
 }

@@ -49,7 +49,7 @@
                 </div>
                 <div class="review-body-container">
                     <a href="{% url 'movie-page' review_movie.1.movie_id %}"><h1>{{review_movie.1.title}}</h1></a>
-                    {{review_movie.0.body}}
+                    <p>{{review_movie.0.body}}</p>
                 </div>
             </div>
             {% endfor %}

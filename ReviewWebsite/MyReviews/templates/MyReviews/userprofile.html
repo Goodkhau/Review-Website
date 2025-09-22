@@ -19,7 +19,10 @@
         </div>
         <div class="profilepage-container-user-aboutme">
             <h1>{{ request.user.username }}</h1>
-            <h3>About</h3>
+            <div class="element-edit">
+                <h3>About</h3>
+                <div><a href="{% url '' %}"><p>Edit</p></a></div>
+            </div>
         </div>
         <div class="profilepage-container-user-reviews">
             <h3>Reviews</h3>
