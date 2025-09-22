@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('api/v1/create-person/', RESTfulAPI.CreatePerson.as_view(), name='api-create-person'),
     path('api/v1/create-review/', RESTfulAPI.CreateReview.as_view(), name='api-create-review'),
+    path('api/v1/create-review/<int:pk>/', RESTfulAPI.RetrieveUpdateDeleteReview.as_view(), name='api-RUD-review'),
     path('api/v1/create-genre/', RESTfulAPI.CreateGenre.as_view(), name='api-create-genre'),
     path('api/v1/create-movie/', RESTfulAPI.CreateMovie.as_view(), name='api-create-movie'),
 ]
