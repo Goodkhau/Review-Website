@@ -27,12 +27,20 @@
             </div>
         </div>
         <div class="profilepage-container-user-reviews">
-            <h3>Reviews</h3>
-            
+            <div class="element-edit">
+                <h3>Reviews</h3>
+                {% if user.username == request.user.username %}
+                <div><a href="{% url 'api-create-review' %}"><p>Edit</p></a></div>
+                {% endif %}
+            </div>
         </div>
         <div class="profilepage-container-user-movies">
-            <h3>Added Movies</h3>
-            
+            <div class="element-edit">
+                <h3>Added Movies</h3>
+                {% if user.username == request.user.username %}
+                <div><a href="{% url 'api-create-movie' %}"><p>Edit</p></a></div>
+                {% endif %}
+            </div>
         </div>
     </section>
     <section class="profilepage-container-misc">
