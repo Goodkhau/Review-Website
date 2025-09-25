@@ -2,12 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class Genre(models.Model):
-    genre_id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, primary_key=True)
     description = models.TextField(blank=True)
 
 class Person(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=40)
     birth = models.DateField(blank=True)
     death = models.DateField(blank=True)
@@ -15,7 +13,6 @@ class Person(models.Model):
     picture = models.ImageField(default='profilefallback.png', blank=True)
 
 class Movie(models.Model):
-    movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     poster = models.ImageField(default='fallback.png', blank=True)
@@ -63,7 +60,6 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["email"]
 
 class Review(models.Model):
-    review_id = models.IntegerField(primary_key=True)
     movie = models.ForeignKey(Movie, related_name='movie', on_delete=models.SET_NULL, null=True)
     reviewer = models.ForeignKey(User, related_name='reviewer', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
