@@ -117,8 +117,7 @@ def specificQuery(type, row, qry_str, debug):
                 if row[16] == '':
                     row[16] = 0
                 row[14] = datetime.strptime(row[14], '%Y-%m-%d').date()
-                cur.execute(qry_str, (row[5], row[8], row[9], row[14], row[16], 
-                                      datetime.now(), 0, "fallback.png", 0, None, None))
+                cur.execute(qry_str, (row[8], "", "fallback.png", None, 0, 0, row[14], row[16], datetime.now(), datetime.now()))
                 accepted_count+=1
             except:
                 error_count+=1
@@ -130,9 +129,9 @@ def specificQuery(type, row, qry_str, debug):
                 row[3] = row[3].replace("'", '"')
                 JSON = json.loads(row[3])
                 for element in JSON:
-                    cur.execute("SELECT * FROM myreviews_genre WHERE genre_id = %s", (element["id"],))
+                    cur.execute("SELECT * FROM myreviews_genre WHERE name = %s", (element["name"],))
                     if cur.fetchone() == None:
-                        cur.execute("INSERT INTO myreviews_genre (genre_id, name, description) VALUES (%s, %s, %s)", (element["id"], element["name"], " "))
+                        cur.execute("INSERT INTO myreviews_genre (name, description) VALUES (%s, %s)", (element["name"], ""))
                 accepted_count+=1
             except:
                 error_count+=1
@@ -140,7 +139,7 @@ def specificQuery(type, row, qry_str, debug):
                 print(row)
         case "movie_genre":
             try:
-                cur.execute("SELECT * FROM myreviews_movie WHERE movie_id = %s", (row[5],))
+                cur.execute("SELECT * FROM myreviews_movie WHERE title = %s", (row[8],))
                 if cur.fetchone() == None:
                     cur.fetchall()
                     print(row[8] + " is not in the database")
@@ -149,12 +148,12 @@ def specificQuery(type, row, qry_str, debug):
                 row[3] = row[3].replace("'", '"')
                 JSON = json.loads(row[3])
                 for element in JSON:
-                    cur.execute("SELECT * FROM myreviews_genre WHERE genre_id = %s", (element["id"],))
+                    cur.execute("SELECT * FROM myreviews_genre WHERE name = %s", (element["name"],))
                     if cur.fetchone() == None:
                         cur.fetchall()
                         continue
                     cur.fetchall()
-                    cur.execute(qry_str, (row[5], element["id"]))
+                    cur.execute(qry_str, (row[5], element["name"]))
             except:
                 error_count+=1
                 print("Error for: ", end="")
@@ -189,12 +188,13 @@ def ImportMovies():
     debugData(data)
     rows = decodeMovieMetaData(data)
     generateQueryStr(
-        "INSERT INTO myreviews_movie (movie_id, title, description, release_date, runtime, " \
-        "date_added, number_reviews, poster, total_score, director_id, average_score) " \
-        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        "INSERT INTO myreviews_movie (title, description, poster, average_score, total_score, number_reviews, " \
+        "release_date, runtime, date_added, modified_at) " \
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
         rows,
         "movie_data"
     )
+    commitPrompt()
 
 if __name__ == "__main__":
     main()
