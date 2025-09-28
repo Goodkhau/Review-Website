@@ -1,5 +1,6 @@
 import MySQLdb
 import json
+import sys
 from decouple import config
 from datetime import datetime
 
@@ -140,7 +141,8 @@ def specificQuery(type, row, qry_str, debug):
         case "movie_genre":
             try:
                 cur.execute("SELECT * FROM myreviews_movie WHERE title = %s", (row[8],))
-                if cur.fetchone() == None:
+                q = cur.fetchone()
+                if q == None:
                     cur.fetchall()
                     print(row[8] + " is not in the database")
                     return
@@ -153,7 +155,7 @@ def specificQuery(type, row, qry_str, debug):
                         cur.fetchall()
                         continue
                     cur.fetchall()
-                    cur.execute(qry_str, (row[5], element["name"]))
+                    cur.execute(qry_str, (q[0], element["name"]))
             except:
                 error_count+=1
                 print("Error for: ", end="")
@@ -164,8 +166,11 @@ def commitPrompt():
     commit = input("Commit the queries? (Y/N)\n")
     if commit == 'Y':
         db.commit()
+    else:
+        return
     cur.close()
     db.close()
+    sys.exit()
 
 def importGenreMovieRelation():
     data = openFile("/movies_metadata.csv")
@@ -176,6 +181,7 @@ def importGenreMovieRelation():
         rows,
         "genre"
     )
+    commitPrompt()
     generateQueryStr(
         "INSERT INTO myreviews_movie_genre_list (movie_id, genre_id) VALUES (%s, %s)",
         rows,
