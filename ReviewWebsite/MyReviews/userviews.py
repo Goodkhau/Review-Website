@@ -81,10 +81,10 @@ def registerpage(request):
     
 def activate(request, uidb64, token):
     try:
-        uid = int(force_str(urlsafe_base64_decode(uidb64)))
+        uid = force_str(urlsafe_base64_decode(uidb64).decode('ascii'))
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+        return HttpResponse('User does not exist!' + force_str(urlsafe_base64_decode(uidb64).decode('str')))
 
     if user is None:
         return HttpResponse('User does not exist!')
