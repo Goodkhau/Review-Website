@@ -13,10 +13,10 @@
         {% for movie_genre in movie_genres %}
         <div class="recentMovieContainer">
             <div class="img-container">
-                <a href="{% url 'movie-page' movie_genre.0.movie_id %}"><img src="{{movie_genre.0.poster.url}}" alt="{{movie_genre.0.title}}" width="100%"></a>
+                <a href="{% url 'movie-page' movie_genre.0.pk %}"><img src="{{movie_genre.0.poster.url}}" alt="{{movie_genre.0.title}}" width="100%"></a>
             </div>
             <div>
-                <h3><a href="{% url 'movie-page' movie_genre.0.movie_id %}">{{ movie_genre.0.title }}</a></h3>
+                <h3><a href="{% url 'movie-page' movie_genre.0.pk %}">{{ movie_genre.0.title }}</a></h3>
                 <div>
                     <div>
                         <a href="{% url 'chart-page' movie_genre.0.release_date|date:'Y' 1 %}">{{movie_genre.0.release_date|date:"Y"}}</a>
@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         {% for genre in movie_genre.1 %}
-                            <a href="{% url 'genre-page' genre.genre_id %}">{{genre.name}}</a>{% if not forloop.last %}, {% endif %}
+                            <a href="{% url 'genre-page' genre.pk %}">{{genre.name}}</a>{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -45,10 +45,10 @@
             {% for review_movie in review_movies %}
             <div class="recentReviewsContainer">
                 <div class="review-image-container">
-                    <a href="{% url 'movie-page' review_movie.1.movie_id %}"><img src="{{review_movie.1.poster.url}}" alt="{{review_movie.1.title}}"></a>
+                    <a href="{% url 'movie-page' review_movie.1.pk %}"><img src="{{review_movie.1.poster.url}}" alt="{{review_movie.1.title}}"></a>
                 </div>
                 <div class="review-body-container">
-                    <a href="{% url 'movie-page' review_movie.1.movie_id %}"><h1>{{review_movie.1.title}}</h1></a>
+                    <a href="{% url 'movie-page' review_movie.1.pk %}"><h1>{{review_movie.1.title}}</h1></a>
                     <p>{{review_movie.0.body}}</p>
                 </div>
             </div>
