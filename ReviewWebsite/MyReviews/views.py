@@ -33,8 +33,8 @@ def genrehome(request):
     return render(request, 'MyReviews/genrehome.html', context)
 
 def genrepage(request, pk):
-    genre = Genre.objects.get(genre_id=pk)
-    movies = genre.movie_set.all().order_by('release_date')
+    genre = Genre.objects.get(name=pk)
+    movies = genre.genre_list.all().order_by('release_date')
     num_movie = movies.count()
     movies = movies[:10]
     context = {'genre': genre, 'movies': movies, 'num_movie': num_movie}

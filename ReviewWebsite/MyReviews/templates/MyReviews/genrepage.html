@@ -31,7 +31,7 @@
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
         </div>
         <div class="genrepage-container-list-data">
-            <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
+            <a href="{% url 'movie-page' movie.pk %}">{{ movie.title }}</a>
             <br>
             <a href="{% url 'chart-page' movie.release_date|date:'Y' 1 %}">{{ movie.release_date|date:"Y" }}</a>
         </div>
