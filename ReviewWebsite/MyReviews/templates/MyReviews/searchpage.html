@@ -13,7 +13,7 @@
         {% for movie in movies %}
         <div class="searchpage-container-element-grp">
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%">
-            <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
+            <a href="{% url 'movie-page' movie.pk %}">{{ movie.title }}</a>
         </div>
         {% endfor %}
     </section>

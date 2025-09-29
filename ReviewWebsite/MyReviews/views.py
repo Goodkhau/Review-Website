@@ -22,7 +22,7 @@ def homepage(request):
     return render(request, 'MyReviews/homepage.html', context)
 
 def moviepage(request, pk):
-    movie = Movie.objects.get(movie_id=pk)
+    movie = Movie.objects.get(id=pk)
     genres = movie.genre_list.all().order_by('name')
     rating = None if movie.number_reviews == 0 else movie.total_score/movie.number_reviews
     context = {'movie': movie, 'genres': genres, 'rating': rating}

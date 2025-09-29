@@ -21,10 +21,10 @@
         {% for movie in movies %}
         <div class="chartpage-container-element-grp">
             <div class="chartpage-container-element-grp-img">
-                <a href="{% url 'movie-page' movie.movie_id %}"><img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%"></a>
+                <a href="{% url 'movie-page' movie.pk %}"><img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="100%"></a>
             </div>
             <div class="chartpage-container-element-grp-metadata">
-                <a href="{% url 'movie-page' movie.movie_id %}">{{ movie.title }}</a>
+                <a href="{% url 'movie-page' movie.pk %}">{{ movie.title }}</a>
             </div>
             <div class="chartpage-container-element-grp-reviewdata">
 
