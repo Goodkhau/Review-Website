@@ -7,9 +7,11 @@ from .models import Movie, Review, Genre, User, Person
 from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
 
 
-class CreatePerson(generics.ListCreateAPIView):
-    queryset = Person.objects.all()[:5]
-    serializer_class = PersonSerializer
+class PersonAPI(APIView):
+    def post(self, request):
+        return Response()
+    def get(self, request):
+        return Response()
 
 class RetrieveUpdateDeletePerson(generics.RetrieveUpdateDestroyAPIView):
     queryset = Person.objects.all()
@@ -25,14 +27,21 @@ class RetrieveUpdateDeleteGenre(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GenreSerializer
     lookup_field = 'pk'
 
-class CreateReview(generics.ListCreateAPIView):
-    queryset = Review.objects.all()[:5]
-    serializer_class = ReviewSerializer
+class ReviewAPI(APIView):
+    def post(self, request):
+        review = ReviewSerializer(data=request.data)
+        review.reviewer = request.user.pk
 
-class RetrieveUpdateDeleteReview(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
-    lookup_field = 'pk'
+        if not review.is_valid:
+            return Response(review.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        review.save()
+        return Response(review.data, status=status.HTTP_201_CREATED)
+    
+    def get(self, request):
+        reviews = Review.objects.all()[:5]
+        reviews = ReviewSerializer(reviews, many=True)
+        return Response(reviews.data)
 
 class CreateMovie(generics.ListCreateAPIView):
     queryset = Movie.objects.all()[:5]
