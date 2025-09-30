@@ -5,27 +5,26 @@ from .models import Movie, Genre, Person, Review, User
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ['genre_id', 'name', 'description']
+        fields = ['name', 'description']
 
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['id', 'name', 'birth', 'death', 
+        fields = ['name', 'birth', 'death', 
                   'biography', 'picture']
 
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ['movie_id', 'title', 'description', 
-                  'poster', 'average_score', 'total_score', 
-                  'number_reviews', 'genre_list', 'release_date', 
-                  'runtime', 'date_added', 'director', 
-                  'cast', 'crew']
+        fields = ['title', 'description', 'poster', 
+                  'genre_list', 'release_date', 
+                  'runtime', 'director', 'cast', 
+                  'crew']
         
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['review_id', 'movie', 'reviewer', 'created_at', 'modified_at', 'score', 'body']
+        fields = ['movie', 'score', 'body']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
