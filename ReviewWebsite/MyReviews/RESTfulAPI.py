@@ -13,20 +13,6 @@ class PersonAPI(APIView):
     def get(self, request):
         return Response()
 
-class RetrieveUpdateDeletePerson(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Person.objects.all()
-    serializer_class = PersonSerializer
-    lookup_field = 'pk'
-
-class CreateGenre(generics.ListCreateAPIView):
-    queryset = Genre.objects.all()[:5]
-    serializer_class = GenreSerializer
-
-class RetrieveUpdateDeleteGenre(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
-    lookup_field = 'pk'
-
 class ReviewAPI(APIView):
     def post(self, request, pk):
         review = ReviewSerializer(data=request.data)
@@ -42,17 +28,3 @@ class ReviewAPI(APIView):
         reviews = Review.objects.all()[:5]
         reviews = ReviewSerializer(reviews, many=True)
         return Response(reviews.data)
-
-class CreateMovie(generics.ListCreateAPIView):
-    queryset = Movie.objects.all()[:5]
-    serializer_class = MovieSerializer
-
-class RetrieveUpdateDeleteMovie(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
-    lookup_field = 'pk'
-
-class RetrieveUpdateDeleteUser(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    lookup_field = 'pk'
