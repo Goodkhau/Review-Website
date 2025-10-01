@@ -28,7 +28,7 @@ class RetrieveUpdateDeleteGenre(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
 
 class ReviewAPI(APIView):
-    def post(self, request):
+    def post(self, request, pk):
         review = ReviewSerializer(data=request.data)
         review.reviewer = request.user.pk
 
@@ -38,7 +38,7 @@ class ReviewAPI(APIView):
         review.save()
         return Response(review.data, status=status.HTTP_201_CREATED)
     
-    def get(self, request):
+    def get(self, request, pk):
         reviews = Review.objects.all()[:5]
         reviews = ReviewSerializer(reviews, many=True)
         return Response(reviews.data)

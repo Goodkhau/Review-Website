@@ -21,13 +21,5 @@ urlpatterns = [
     path('register/', userviews.registerpage, name='register-page'),
     path('activate/<str:uidb64>/<str:token>/', userviews.activate, name='activate'),
 
-    path('api/v1/person/', RESTfulAPI.CreatePerson.as_view(), name='api-create-person'),
-    path('api/v1/person/<int:pk>/', RESTfulAPI.RetrieveUpdateDeletePerson.as_view(), name='api-RUD-person'),
-    path('api/v1/review/', RESTfulAPI.CreateReview.as_view(), name='api-create-review'),
-    path('api/v1/review/<int:pk>/', RESTfulAPI.RetrieveUpdateDeleteReview.as_view(), name='api-RUD-review'),
-    path('api/v1/genre/', RESTfulAPI.CreateGenre.as_view(), name='api-create-genre'),
-    path('api/v1/genre/<str:pk>/', RESTfulAPI.RetrieveUpdateDeleteGenre.as_view(), name='api-RUD-genre'),
-    path('api/v1/movie/', RESTfulAPI.CreateMovie.as_view(), name='api-create-movie'),
-    path('api/v1/movie/<int:pk>/', RESTfulAPI.RetrieveUpdateDeleteMovie.as_view(), name='api-RUD-movie'),
-    path('api/v1/user/<str:pk>/', RESTfulAPI.RetrieveUpdateDeleteUser.as_view(), name='api-RUD-user'),
+    path('api/v1/review/', RESTfulAPI.ReviewAPI.as_view(), name='api-review'),
 ]
