@@ -7,12 +7,16 @@ from .models import Movie, Review, Genre, User, Person
 from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
 
 
-class PersonAPI(APIView):
-    def post(self, request):
+## Post should automatically include request.user as contributor. If the user is not authenticated, a movie should not be made.
+## Get should return at most 10 movies and options for searching movies by any movie attibute should be possible
+class MovieAPI(APIView):
+    def post():
         return Response()
-    def get(self, request):
+    def get():
         return Response()
 
+## Post should include review as contributor. If there is no reviewer, a review should not be made.
+## Get should be queriable by user and movie.
 class ReviewAPI(APIView):
     def post(self, request, pk):
         review = ReviewSerializer(data=request.data)
@@ -28,3 +32,25 @@ class ReviewAPI(APIView):
         reviews = Review.objects.all()[:5]
         reviews = ReviewSerializer(reviews, many=True)
         return Response(reviews.data)
+
+## Post automatic add to contributors
+## Get queriable by contributor and name
+class GenreAPI(APIView):
+    def post(self, request):
+        return Response()
+    def get(self, request):
+        return Response()
+
+## Post only one user should be made at a time
+## Get only queriable by pk
+class UserAPI(APIView):
+    def get(self, request):
+        return Response()
+
+## Post add user to contrib
+## Get queriable by birth death and name
+class PersonAPI(APIView):
+    def post(self, request):
+        return Response()
+    def get(self, request):
+        return Response()
