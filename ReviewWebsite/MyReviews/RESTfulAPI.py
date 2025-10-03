@@ -18,22 +18,25 @@ class MovieAPI(APIView):
 ## Post should include review as contributor. If there is no reviewer, a review should not be made.
 ## Get should be queriable by user and movie.
 class ReviewAPI(APIView):
-    def post(self, request, pk):
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
         review = ReviewSerializer(data=request.data)
         review.reviewer = request.user.pk
 
-        if not review.is_valid:
+        if not review.is_valid():
             return Response(review.errors, status=status.HTTP_400_BAD_REQUEST)
         
         review.save()
         return Response(review.data, status=status.HTTP_201_CREATED)
     
-    def get(self, request, pk):
+    def get(self, request):
         reviews = Review.objects.all()[:5]
         reviews = ReviewSerializer(reviews, many=True)
         return Response(reviews.data)
 
-## Post automatic add to contributors
+## Post automatic add to contributors. Need to be a user to post
 ## Get queriable by contributor and name
 class GenreAPI(APIView):
     def post(self, request):
@@ -41,13 +44,13 @@ class GenreAPI(APIView):
     def get(self, request):
         return Response()
 
-## Post only one user should be made at a time
+## Post only one user should be made at a time. Need to be a user to post
 ## Get only queriable by pk
 class UserAPI(APIView):
     def get(self, request):
         return Response()
 
-## Post add user to contrib
+## Post add user to contrib. Need to be a user to post
 ## Get queriable by birth death and name
 class PersonAPI(APIView):
     def post(self, request):
