@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
 from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
 
@@ -22,17 +23,29 @@ class ReviewAPI(APIView):
         if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
-        review = ReviewSerializer(data=request.data)
-        review.reviewer = request.user.pk
+        review = ReviewSerializer(data=request.data, partial=True)
 
         if not review.is_valid():
             return Response(review.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        review.save()
+        review.save(reviewer=request.user)
         return Response(review.data, status=status.HTTP_201_CREATED)
     
     def get(self, request):
-        reviews = Review.objects.all()[:5]
+        movie = request.GET.get("movie")
+        movie = movie if movie != None else ""
+        reviewer = request.GET.get("user")
+        reviewer = reviewer if reviewer != None else ""
+
+        reviews = Review.objects.filter(
+            Q(movie__title__icontains=movie) &
+            Q(reviewer__username__icontains=reviewer)
+        )[:5]
+
+        ## If reviews queryset is empty
+        if not reviews:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
         reviews = ReviewSerializer(reviews, many=True)
         return Response(reviews.data)
 
