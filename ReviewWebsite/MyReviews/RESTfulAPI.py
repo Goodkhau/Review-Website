@@ -24,6 +24,34 @@ class MovieAPI(APIView):
         return Response(movie.data, status=status.HTTP_201_CREATED)
     
     def get(self, request):
+        title = request.GET.get("title")
+        title = title if title != None else ""
+
+        try:
+            scoreGTE = int(request.GET.get("scoreGTE"))
+            scoreGTE = scoreGTE if scoreGTE != None else 0
+            scoreLTE = int(request.GET.get("scoreLTE"))
+            scoreLTE = scoreLTE if scoreLTE != None else 0
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            numGTE = int(request.GET.get("numGTE"))
+            numGTE = numGTE if numGTE != None else 0
+            numLTE = int(request.GET.get("numLTE"))
+            numLTE = numLTE if numLTE != None else 0
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        genre = request.GET.get("genre")
+        list = []
+        while genre != None:
+            g = Genre.objects.get(pk=genre)
+            if g is None:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            list.append(g)
+            genre = request.GET.get("genre")
+
         movies = Movie.objects.all()[:3]
         movies = MovieSerializer(movies, many=True)
         return Response(movies.data, status=status.HTTP_200_OK)
