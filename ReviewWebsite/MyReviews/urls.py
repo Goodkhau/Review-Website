@@ -22,4 +22,5 @@ urlpatterns = [
     path('activate/<str:uidb64>/<str:token>/', userviews.activate, name='activate'),
 
     path('api/v1/review/', RESTfulAPI.ReviewAPI.as_view(), name='api-review'),
+    path('api/v1/movie/', RESTfulAPI.MovieAPI.as_view(), name='api-movie'),
 ]

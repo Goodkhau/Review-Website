@@ -11,13 +11,23 @@ from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, Mo
 ## Post should automatically include request.user as contributor. If the user is not authenticated, a movie should not be made.
 ## Get should return at most 10 movies and options for searching movies by any movie attibute should be possible
 class MovieAPI(APIView):
-    def post():
-        return Response()
-    def get():
-        return Response()
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        movie = MovieSerializer(data=request.data, partial=True)
 
-## Post should include review as contributor. If there is no reviewer, a review should not be made.
-## Get should be queriable by user and movie.
+        if not movie.is_valid():
+            return Response(movie.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        movie.save(contributors=[request.user])
+        return Response(movie.data, status=status.HTTP_201_CREATED)
+    
+    def get(self, request):
+        movies = Movie.objects.all()[:3]
+        movies = MovieSerializer(movies, many=True)
+        return Response(movies.data, status=status.HTTP_200_OK)
+
 class ReviewAPI(APIView):
     def post(self, request):
         if not request.user.is_authenticated:
@@ -44,7 +54,7 @@ class ReviewAPI(APIView):
 
         ## If reviews queryset is empty
         if not reviews:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         
         reviews = ReviewSerializer(reviews, many=True)
         return Response(reviews.data)

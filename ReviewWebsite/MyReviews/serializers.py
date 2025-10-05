@@ -19,7 +19,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = ['title', 'description', 'poster', 
                   'genre_list', 'release_date', 
                   'runtime', 'director', 'cast', 
-                  'crew']
+                  'crew', 'contributors']
         
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
