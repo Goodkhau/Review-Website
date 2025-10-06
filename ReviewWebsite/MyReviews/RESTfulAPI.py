@@ -30,18 +30,18 @@ class MovieAPI(APIView):
         title = title if title != None else ""
 
         try:
-            scoreGTE = int(request.GET.get("scoreGTE"))
-            scoreGTE = scoreGTE if scoreGTE != None else 0
-            scoreLTE = int(request.GET.get("scoreLTE"))
-            scoreLTE = scoreLTE if scoreLTE != None else 0
+            scoreGTE = request.GET.get("scoreGTE")
+            scoreGTE = float(scoreGTE) if scoreGTE != None else 0
+            scoreLTE = request.GET.get("scoreLTE")
+            scoreLTE = float(scoreLTE) if scoreLTE != None else 10
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            numGTE = int(request.GET.get("numGTE"))
-            numGTE = numGTE if numGTE != None else 0
-            numLTE = int(request.GET.get("numLTE"))
-            numLTE = numLTE if numLTE != None else 0
+            numGTE = request.GET.get("numGTE")
+            numGTE = int(numGTE) if numGTE != None else 0
+            numLTE = request.GET.get("numLTE")
+            numLTE = int(numLTE) if numLTE != None else 999999
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
@@ -55,14 +55,42 @@ class MovieAPI(APIView):
             genre = request.GET.get("genre")
         
         try:
-            dateGTE = date(request.GET.get("dateGTE"))
-            dateGTE = dateGTE if dateGTE != None else date.today()
-            dateLTE = date(request.GET.get("dateLTE"))
-            dateLTE = dateLTE if dateLTE != None else date(datetime.MINYEAR,1,1)
+            dateGTE = request.GET.get("dateGTE")
+            dateGTE = dateGTE.split('-') if dateGTE != None else None
+            dateGTE = date(int(dateGTE[0]), int(dateGTE[1]), int(dateGTE[2])) if dateGTE != None else date.today()
+            dateLTE = request.GET.get("dateLTE")
+            dateLTE = dateLTE.split('-') if dateLTE != None else None
+            dateLTE = date(int(dateLTE[0]), int(dateLTE[1]), int(dateLTE[2])) if dateLTE != None else date(datetime.MINYEAR,1,1)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            runtimeGTE = request.GET.get("runtimeGTE")
+            runtimeGTE = int(runtimeGTE) if runtimeGTE != None else 0
+            runtimeLTE = request.GET.get("runtimeLTE")
+            runtimeLTE = int(runtimeLTE) if runtimeLTE != None else 999999
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        movies = Movie.objects.filter(
+            Q(title__icontains=title) &
+            Q(average_score__gte=scoreGTE) |
+            Q(average_score=None) &
+            Q(average_score__lte=scoreLTE) |
+            Q(average_score=None) &
+            Q(number_reviews__gte=numGTE) &
+            Q(number_reviews__lte=numLTE)
+            #Q(release_date__gte=dateGTE) |
+            #Q(release_date=None) &
+            #Q(release_date__lte=dateLTE) |
+            #Q(release_date=None)
+            #Q(runtime__gte=runtimeGTE) &
+            #Q(runtime__lte=runtimeLTE)
+        )[:5]
 
-        movies = Movie.objects.all()[:3]
+        if len(movies) == 0:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
         movies = MovieSerializer(movies, many=True)
         return Response(movies.data, status=status.HTTP_200_OK)
 
@@ -76,6 +104,12 @@ class ReviewAPI(APIView):
         if not review.is_valid():
             return Response(review.errors, status=status.HTTP_400_BAD_REQUEST)
         
+        movie = Movie.objects.get(pk=review.movie)
+        movie.total_score += review.score
+        movie.number_reviews += 1
+        movie.average_score = review.score if movie.average_score is None else movie.total_score/movie.number_reviews
+        
+        movie.save()
         review.save(reviewer=request.user)
         return Response(review.data, status=status.HTTP_201_CREATED)
     
