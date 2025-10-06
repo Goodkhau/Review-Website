@@ -6,6 +6,8 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
 from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
+import datetime
+from datetime import date
 
 
 ## Post should automatically include request.user as contributor. If the user is not authenticated, a movie should not be made.
@@ -51,6 +53,14 @@ class MovieAPI(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             list.append(g)
             genre = request.GET.get("genre")
+        
+        try:
+            dateGTE = date(request.GET.get("dateGTE"))
+            dateGTE = dateGTE if dateGTE != None else date.today()
+            dateLTE = date(request.GET.get("dateLTE"))
+            dateLTE = dateLTE if dateLTE != None else date(datetime.MINYEAR,1,1)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         movies = Movie.objects.all()[:3]
         movies = MovieSerializer(movies, many=True)
