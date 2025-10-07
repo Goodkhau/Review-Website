@@ -11,8 +11,6 @@ from datetime import date
 import math
 
 
-## Post should automatically include request.user as contributor. If the user is not authenticated, a movie should not be made.
-## Get should return at most 10 movies and options for searching movies by any movie attibute should be possible
 class MovieAPI(APIView):
     def post(self, request):
         if not request.user.is_authenticated:
