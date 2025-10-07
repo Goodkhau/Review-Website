@@ -29,9 +29,6 @@ class SingleMovieAPI(APIView):
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
-        if movie is None:
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        
         movie.genre_list.clear()
         movie.director.clear()
         movie.cast.clear()
@@ -41,7 +38,12 @@ class SingleMovieAPI(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def patch(self, request, pk):
-        movie = MovieSerializer(data=request.data, partial=True)
+        try:
+            movie = Movie.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        movie = MovieSerializer(movie, data=request.data, partial=True)
         if not movie.is_valid():
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -134,7 +136,7 @@ class MovieAPI(APIView):
             Q(release_date__lte=dateLTE) &
             Q(runtime__gte=runtimeGTE) &
             Q(runtime__lte=runtimeLTE)
-        )[:5]
+        ).order_by("-date_added")[:5]
 
         if len(movies) == 0:
             return Response(status=status.HTTP_204_NO_CONTENT)

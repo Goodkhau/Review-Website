@@ -16,7 +16,7 @@ class PersonSerializer(serializers.ModelSerializer):
 class GetMovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ['title', 'description', 'poster',
+        fields = ['id', 'title', 'description', 'poster',
                   'average_score', 'number_reviews', 
                   'genre_list', 'release_date', 
                   'runtime', 'date_added', 'modified_at',
