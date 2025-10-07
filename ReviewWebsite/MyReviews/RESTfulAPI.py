@@ -8,6 +8,7 @@ from .models import Movie, Review, Genre, User, Person
 from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
 import datetime
 from datetime import date
+import math
 
 
 ## Post should automatically include request.user as contributor. If the user is not authenticated, a movie should not be made.
@@ -34,14 +35,16 @@ class MovieAPI(APIView):
             scoreGTE = float(scoreGTE) if scoreGTE != None else 0
             scoreLTE = request.GET.get("scoreLTE")
             scoreLTE = float(scoreLTE) if scoreLTE != None else 10
+            scoreNone = request.GET.get("scoreNone")
+            scoreNone = None if scoreNone != None else -1
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
         try:
             numGTE = request.GET.get("numGTE")
-            numGTE = int(numGTE) if numGTE != None else 0
+            numGTE = math.ceil(float(numGTE)) if numGTE != None else 0
             numLTE = request.GET.get("numLTE")
-            numLTE = int(numLTE) if numLTE != None else 999999
+            numLTE = math.floor(float(numLTE)) if numLTE != None else 9999999
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
@@ -57,10 +60,12 @@ class MovieAPI(APIView):
         try:
             dateGTE = request.GET.get("dateGTE")
             dateGTE = dateGTE.split('-') if dateGTE != None else None
-            dateGTE = date(int(dateGTE[0]), int(dateGTE[1]), int(dateGTE[2])) if dateGTE != None else date.today()
+            dateGTE = date(int(dateGTE[0]), int(dateGTE[1]), int(dateGTE[2])) if dateGTE != None else date(datetime.MINYEAR,1,1)
+            print(dateGTE)
             dateLTE = request.GET.get("dateLTE")
             dateLTE = dateLTE.split('-') if dateLTE != None else None
-            dateLTE = date(int(dateLTE[0]), int(dateLTE[1]), int(dateLTE[2])) if dateLTE != None else date(datetime.MINYEAR,1,1)
+            dateLTE = date(int(dateLTE[0]), int(dateLTE[1]), int(dateLTE[2])) if dateLTE != None else date.today()
+            print(dateLTE)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
@@ -74,18 +79,15 @@ class MovieAPI(APIView):
         
         movies = Movie.objects.filter(
             Q(title__icontains=title) &
-            Q(average_score__gte=scoreGTE) |
-            Q(average_score=None) &
-            Q(average_score__lte=scoreLTE) |
-            Q(average_score=None) &
+            (Q(average_score=scoreNone) | 
+            (Q(average_score__gte=scoreGTE) &
+            Q(average_score__lte=scoreLTE))) &
             Q(number_reviews__gte=numGTE) &
-            Q(number_reviews__lte=numLTE)
-            #Q(release_date__gte=dateGTE) |
-            #Q(release_date=None) &
-            #Q(release_date__lte=dateLTE) |
-            #Q(release_date=None)
-            #Q(runtime__gte=runtimeGTE) &
-            #Q(runtime__lte=runtimeLTE)
+            Q(number_reviews__lte=numLTE) &
+            Q(release_date__gte=dateGTE) &
+            Q(release_date__lte=dateLTE) &
+            Q(runtime__gte=runtimeGTE) &
+            Q(runtime__lte=runtimeLTE)
         )[:5]
 
         if len(movies) == 0:
@@ -103,11 +105,11 @@ class ReviewAPI(APIView):
 
         if not review.is_valid():
             return Response(review.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        movie = Movie.objects.get(pk=review.movie)
-        movie.total_score += review.score
+
+        movie = review.validated_data["movie"]
+        movie.total_score += review.validated_data["score"]
         movie.number_reviews += 1
-        movie.average_score = review.score if movie.average_score is None else movie.total_score/movie.number_reviews
+        movie.average_score = movie.total_score if movie.average_score is None else movie.total_score/movie.number_reviews
         
         movie.save()
         review.save(reviewer=request.user)
