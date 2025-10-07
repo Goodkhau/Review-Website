@@ -33,10 +33,15 @@ class MovieAPI(APIView):
         try:
             scoreGTE = request.GET.get("scoreGTE")
             scoreGTE = float(scoreGTE) if scoreGTE != None else 0
+            print(scoreGTE)
             scoreLTE = request.GET.get("scoreLTE")
             scoreLTE = float(scoreLTE) if scoreLTE != None else 10
+            print(scoreLTE)
             scoreNone = request.GET.get("scoreNone")
-            scoreNone = None if scoreNone != None else -1
+            if scoreNone == None:
+                scoreNoneQ = Q(average_score=None)
+            else:
+                scoreNoneQ = Q(average_score=-404)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
@@ -48,14 +53,18 @@ class MovieAPI(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
-        genre = request.GET.get("genre")
+        genre = request.GET.getlist("genre")
         list = []
-        while genre != None:
-            g = Genre.objects.get(pk=genre)
-            if g is None:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            list.append(g)
-            genre = request.GET.get("genre")
+        for g in genre:
+            try:
+                temp = Genre.objects.get(pk=g)
+            except:
+                continue
+            list.append(temp)
+        genreQuery = Q()
+        print(len(list))
+        if len(list) != 0:
+            genreQuery = Q(genre_list__in=list)
         
         try:
             dateGTE = request.GET.get("dateGTE")
@@ -79,11 +88,12 @@ class MovieAPI(APIView):
         
         movies = Movie.objects.filter(
             Q(title__icontains=title) &
-            (Q(average_score=scoreNone) | 
+            (scoreNoneQ |
             (Q(average_score__gte=scoreGTE) &
             Q(average_score__lte=scoreLTE))) &
             Q(number_reviews__gte=numGTE) &
             Q(number_reviews__lte=numLTE) &
+            genreQuery &
             Q(release_date__gte=dateGTE) &
             Q(release_date__lte=dateLTE) &
             Q(runtime__gte=runtimeGTE) &
