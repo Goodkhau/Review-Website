@@ -31,10 +31,8 @@ class MovieAPI(APIView):
         try:
             scoreGTE = request.GET.get("scoreGTE")
             scoreGTE = float(scoreGTE) if scoreGTE != None else 0
-            print(scoreGTE)
             scoreLTE = request.GET.get("scoreLTE")
             scoreLTE = float(scoreLTE) if scoreLTE != None else 10
-            print(scoreLTE)
             scoreNone = request.GET.get("scoreNone")
             if scoreNone == None:
                 scoreNoneQ = Q(average_score=None)
@@ -60,7 +58,6 @@ class MovieAPI(APIView):
                 continue
             list.append(temp)
         genreQuery = Q()
-        print(len(list))
         if len(list) != 0:
             genreQuery = Q(genre_list__in=list)
         
@@ -68,11 +65,9 @@ class MovieAPI(APIView):
             dateGTE = request.GET.get("dateGTE")
             dateGTE = dateGTE.split('-') if dateGTE != None else None
             dateGTE = date(int(dateGTE[0]), int(dateGTE[1]), int(dateGTE[2])) if dateGTE != None else date(datetime.MINYEAR,1,1)
-            print(dateGTE)
             dateLTE = request.GET.get("dateLTE")
             dateLTE = dateLTE.split('-') if dateLTE != None else None
             dateLTE = date(int(dateLTE[0]), int(dateLTE[1]), int(dateLTE[2])) if dateLTE != None else date.today()
-            print(dateLTE)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
