@@ -13,6 +13,16 @@ class PersonSerializer(serializers.ModelSerializer):
         fields = ['name', 'birth', 'death', 
                   'biography', 'picture']
 
+class GetMovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ['title', 'description', 'poster',
+                  'average_score', 'number_reviews', 
+                  'genre_list', 'release_date', 
+                  'runtime', 'date_added', 'modified_at',
+                  'director', 'cast', 'crew',
+                  'contributors']
+
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie

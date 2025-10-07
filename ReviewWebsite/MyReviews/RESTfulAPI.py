@@ -1,15 +1,52 @@
 from rest_framework import generics, status
+from rest_framework import authentication, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
-from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
+from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer, UserSerializer
 import datetime
 from datetime import date
 import math
 
+
+class SingleMovieAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, pk):
+        try:
+            movie = Movie.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        movie = GetMovieSerializer(movie)
+        return Response(data=movie.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        try:
+            movie = Movie.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        if movie is None:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        movie.genre_list.clear()
+        movie.director.clear()
+        movie.cast.clear()
+        movie.crew.clear()
+        movie.contributors.clear()
+        movie.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def patch(self, request, pk):
+        movie = MovieSerializer(data=request.data, partial=True)
+        if not movie.is_valid():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        movie.save()
+        return Response(status=status.HTTP_201_CREATED)
 
 class MovieAPI(APIView):
     def post(self, request):
@@ -23,11 +60,13 @@ class MovieAPI(APIView):
         
         movie.save(contributors=[request.user])
         return Response(movie.data, status=status.HTTP_201_CREATED)
-    
+
     def get(self, request):
+        ## Title
         title = request.GET.get("title")
         title = title if title != None else ""
 
+        ## Average Score Range
         try:
             scoreGTE = request.GET.get("scoreGTE")
             scoreGTE = float(scoreGTE) if scoreGTE != None else 0
@@ -41,6 +80,7 @@ class MovieAPI(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
+        ## Number of Reviews Range
         try:
             numGTE = request.GET.get("numGTE")
             numGTE = math.ceil(float(numGTE)) if numGTE != None else 0
@@ -49,6 +89,7 @@ class MovieAPI(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
+        ## Genres
         genre = request.GET.getlist("genre")
         list = []
         for g in genre:
@@ -61,6 +102,7 @@ class MovieAPI(APIView):
         if len(list) != 0:
             genreQuery = Q(genre_list__in=list)
         
+        ## Date Range
         try:
             dateGTE = request.GET.get("dateGTE")
             dateGTE = dateGTE.split('-') if dateGTE != None else None
@@ -71,6 +113,7 @@ class MovieAPI(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
+        ## Runtime Range
         try:
             runtimeGTE = request.GET.get("runtimeGTE")
             runtimeGTE = int(runtimeGTE) if runtimeGTE != None else 0
@@ -96,7 +139,7 @@ class MovieAPI(APIView):
         if len(movies) == 0:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        movies = MovieSerializer(movies, many=True)
+        movies = GetMovieSerializer(movies, many=True)
         return Response(movies.data, status=status.HTTP_200_OK)
 
 class ReviewAPI(APIView):

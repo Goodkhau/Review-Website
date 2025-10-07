@@ -23,4 +23,5 @@ urlpatterns = [
 
     path('api/v1/review/', RESTfulAPI.ReviewAPI.as_view(), name='api-review'),
     path('api/v1/movie/', RESTfulAPI.MovieAPI.as_view(), name='api-movie'),
+    path('api/v1/movie/<int:pk>/', RESTfulAPI.SingleMovieAPI.as_view(), name='api-movie-id'),
 ]
