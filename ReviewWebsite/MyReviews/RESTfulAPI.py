@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
-from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer, UserSerializer
+from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
 import datetime
 from datetime import date
 import math
@@ -126,9 +126,11 @@ class MovieAPI(APIView):
         
         movies = Movie.objects.filter(
             Q(title__icontains=title) &
-            (scoreNoneQ |
-            (Q(average_score__gte=scoreGTE) &
-            Q(average_score__lte=scoreLTE))) &
+             (scoreNoneQ | 
+              (Q(average_score__gte=scoreGTE) &
+               Q(average_score__lte=scoreLTE)
+               )
+              ) &
             Q(number_reviews__gte=numGTE) &
             Q(number_reviews__lte=numLTE) &
             genreQuery &
@@ -186,12 +188,6 @@ class ReviewAPI(APIView):
 class GenreAPI(APIView):
     def post(self, request):
         return Response()
-    def get(self, request):
-        return Response()
-
-## Post only one user should be made at a time. Need to be a user to post
-## Get only queriable by pk
-class UserAPI(APIView):
     def get(self, request):
         return Response()
 
