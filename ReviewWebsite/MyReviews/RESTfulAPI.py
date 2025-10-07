@@ -6,6 +6,9 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
 from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, MovieSerializer, UserSerializer
+import datetime
+from datetime import date
+import math
 
 
 ## Post should automatically include request.user as contributor. If the user is not authenticated, a movie should not be made.
@@ -24,7 +27,82 @@ class MovieAPI(APIView):
         return Response(movie.data, status=status.HTTP_201_CREATED)
     
     def get(self, request):
-        movies = Movie.objects.all()[:3]
+        title = request.GET.get("title")
+        title = title if title != None else ""
+
+        try:
+            scoreGTE = request.GET.get("scoreGTE")
+            scoreGTE = float(scoreGTE) if scoreGTE != None else 0
+            print(scoreGTE)
+            scoreLTE = request.GET.get("scoreLTE")
+            scoreLTE = float(scoreLTE) if scoreLTE != None else 10
+            print(scoreLTE)
+            scoreNone = request.GET.get("scoreNone")
+            if scoreNone == None:
+                scoreNoneQ = Q(average_score=None)
+            else:
+                scoreNoneQ = Q(average_score=-404)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            numGTE = request.GET.get("numGTE")
+            numGTE = math.ceil(float(numGTE)) if numGTE != None else 0
+            numLTE = request.GET.get("numLTE")
+            numLTE = math.floor(float(numLTE)) if numLTE != None else 9999999
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        genre = request.GET.getlist("genre")
+        list = []
+        for g in genre:
+            try:
+                temp = Genre.objects.get(pk=g)
+            except:
+                continue
+            list.append(temp)
+        genreQuery = Q()
+        print(len(list))
+        if len(list) != 0:
+            genreQuery = Q(genre_list__in=list)
+        
+        try:
+            dateGTE = request.GET.get("dateGTE")
+            dateGTE = dateGTE.split('-') if dateGTE != None else None
+            dateGTE = date(int(dateGTE[0]), int(dateGTE[1]), int(dateGTE[2])) if dateGTE != None else date(datetime.MINYEAR,1,1)
+            print(dateGTE)
+            dateLTE = request.GET.get("dateLTE")
+            dateLTE = dateLTE.split('-') if dateLTE != None else None
+            dateLTE = date(int(dateLTE[0]), int(dateLTE[1]), int(dateLTE[2])) if dateLTE != None else date.today()
+            print(dateLTE)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            runtimeGTE = request.GET.get("runtimeGTE")
+            runtimeGTE = int(runtimeGTE) if runtimeGTE != None else 0
+            runtimeLTE = request.GET.get("runtimeLTE")
+            runtimeLTE = int(runtimeLTE) if runtimeLTE != None else 999999
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        movies = Movie.objects.filter(
+            Q(title__icontains=title) &
+            (scoreNoneQ |
+            (Q(average_score__gte=scoreGTE) &
+            Q(average_score__lte=scoreLTE))) &
+            Q(number_reviews__gte=numGTE) &
+            Q(number_reviews__lte=numLTE) &
+            genreQuery &
+            Q(release_date__gte=dateGTE) &
+            Q(release_date__lte=dateLTE) &
+            Q(runtime__gte=runtimeGTE) &
+            Q(runtime__lte=runtimeLTE)
+        )[:5]
+
+        if len(movies) == 0:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
         movies = MovieSerializer(movies, many=True)
         return Response(movies.data, status=status.HTTP_200_OK)
 
@@ -37,7 +115,13 @@ class ReviewAPI(APIView):
 
         if not review.is_valid():
             return Response(review.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        movie = review.validated_data["movie"]
+        movie.total_score += review.validated_data["score"]
+        movie.number_reviews += 1
+        movie.average_score = movie.total_score if movie.average_score is None else movie.total_score/movie.number_reviews
         
+        movie.save()
         review.save(reviewer=request.user)
         return Response(review.data, status=status.HTTP_201_CREATED)
     
