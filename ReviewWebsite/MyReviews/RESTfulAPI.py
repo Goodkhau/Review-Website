@@ -178,11 +178,18 @@ class SingleReviewAPI(APIView):
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
-        review = PatchReviewSerializer(review, data=request.data, partial=True)
-        if not review.is_valid():
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        movie = review.movie
         
-        review.save()
+        review_seralized = PatchReviewSerializer(review, data=request.data, partial=True)
+        if not review_seralized.is_valid():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if movie is not None:
+            movie.total_score -= review.score
+            movie.total_score += review_seralized.validated_data["score"]
+            movie.average_score = movie.total_score/movie.number_reviews
+        
+        review_seralized.save()
         return Response(status=status.HTTP_201_CREATED)
 
 class ReviewAPI(APIView):
