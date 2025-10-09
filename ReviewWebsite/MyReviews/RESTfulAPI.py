@@ -188,6 +188,7 @@ class SingleReviewAPI(APIView):
             movie.total_score -= review.score
             movie.total_score += review_seralized.validated_data["score"]
             movie.average_score = movie.total_score/movie.number_reviews
+            movie.save()
         
         review_seralized.save()
         return Response(status=status.HTTP_201_CREATED)
