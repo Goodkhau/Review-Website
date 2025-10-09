@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
-from .serializers import PersonSerializer, ReviewSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
+from .serializers import PersonSerializer, GetReviewSerializer, PatchReviewSerializer, ReviewSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
 import datetime
 from datetime import date
 import math
@@ -146,10 +146,53 @@ class MovieAPI(APIView):
         movies = GetMovieSerializer(movies, many=True)
         return Response(movies.data, status=status.HTTP_200_OK)
 
+class SingleReviewAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, pk):
+        try:
+            review = Review.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        review = GetReviewSerializer(review)
+        return Response(review.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        try:
+            review = Review.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        if review.movie is not None:
+            movie = review.movie
+            movie.total_score -= review.score
+            movie.number_reviews -= 1
+            movie.average_score = movie.total_score/movie.number_reviews if movie.number_review > 0 else None
+        
+        review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def patch(self, request, pk):
+        try:
+            review = Review.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        review = PatchReviewSerializer(review, data=request.data, partial=True)
+        if not review.is_valid():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        review.save()
+        return Response(status=status.HTTP_201_CREATED)
+
 class ReviewAPI(APIView):
     def post(self, request):
         if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        has_review = request.user.reviewer.get(movie=request.data["movie"])
+        if has_review is not None:
+            return Response(status=status.HTTP_200_OK)
         
         review = ReviewSerializer(data=request.data, partial=True)
 
@@ -180,8 +223,8 @@ class ReviewAPI(APIView):
         if not reviews:
             return Response(status=status.HTTP_204_NO_CONTENT)
         
-        reviews = ReviewSerializer(reviews, many=True)
-        return Response(reviews.data)
+        reviews = GetReviewSerializer(reviews, many=True)
+        return Response(reviews.data, status=status.HTTP_200_OK)
 
 ## Post automatic add to contributors. Need to be a user to post
 ## Get queriable by contributor and name

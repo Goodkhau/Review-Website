@@ -30,6 +30,17 @@ class MovieSerializer(serializers.ModelSerializer):
                   'genre_list', 'release_date', 
                   'runtime', 'director', 'cast', 
                   'crew', 'contributors']
+
+class GetReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'movie', 'reviewer', 'created_at', 
+                  'modified_at', 'score', 'body']
+
+class PatchReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['score', 'body']
         
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
