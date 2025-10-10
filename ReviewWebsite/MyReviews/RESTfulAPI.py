@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Movie, Review, Genre, User, Person
-from .serializers import PersonSerializer, GetReviewSerializer, PatchReviewSerializer, ReviewSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
+from .serializers import PersonSerializer, GetReviewSerializer, PatchReviewSerializer, ReviewSerializer, GetGenreSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
 import datetime
 from datetime import date
 import math
@@ -45,10 +45,10 @@ class SingleMovieAPI(APIView):
         
         movie = MovieSerializer(movie, data=request.data, partial=True)
         if not movie.is_valid():
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(movie.errors, status=status.HTTP_400_BAD_REQUEST)
 
         movie.save()
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(movie.data, status=status.HTTP_201_CREATED)
 
 class MovieAPI(APIView):
     def post(self, request):
@@ -182,7 +182,7 @@ class SingleReviewAPI(APIView):
         
         review_seralized = PatchReviewSerializer(review, data=request.data, partial=True)
         if not review_seralized.is_valid():
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(review_seralized.errors, status=status.HTTP_400_BAD_REQUEST)
 
         if movie is not None:
             movie.total_score -= review.score
@@ -191,7 +191,7 @@ class SingleReviewAPI(APIView):
             movie.save()
         
         review_seralized.save()
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(review_seralized.data, status=status.HTTP_201_CREATED)
 
 class ReviewAPI(APIView):
     def post(self, request):
@@ -234,13 +234,62 @@ class ReviewAPI(APIView):
         reviews = GetReviewSerializer(reviews, many=True)
         return Response(reviews.data, status=status.HTTP_200_OK)
 
-## Post automatic add to contributors. Need to be a user to post
-## Get queriable by contributor and name
+class SingleGenreAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, pk):
+        try:
+            genre = Genre.objects.get(name=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        genre = GetGenreSerializer(genre)
+        return Response(genre.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk):
+        try:
+            genre = Genre.objects.get(name=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        genre.genre_list.clear()
+        genre.contributors.clear()
+        genre.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def patch(self, request, pk):
+        try:
+            genre = Genre.objects.get(name=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        genre = GenreSerializer(genre, data=request.data, partial=True)
+        if not genre.is_valid():
+            return Response(genre.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        genre.save()
+        return Response(genre.data, status=status.HTTP_200_OK)
+
 class GenreAPI(APIView):
     def post(self, request):
-        return Response()
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        genre = GenreSerializer(data=request.data, partial=True)
+
+        if not genre.is_valid():
+            return Response(genre.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        genre.save(contributors=[request.user])
+        return Response(genre.data, status=status.HTTP_201_CREATED)
+    
     def get(self, request):
-        return Response()
+        name = request.GET.get("name")
+        name = name if name is not None else ""
+        genres = Genre.objects.filter(
+            Q(name__icontains=name)
+        )[:5]
+        genres = GetGenreSerializer(genres, many=True)
+        return Response(genres.data, status=status.HTTP_200_OK)
 
 ## Post add user to contrib. Need to be a user to post
 ## Get queriable by birth death and name

@@ -7,6 +7,11 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
         fields = ['name', 'description']
 
+class GetGenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ['name', 'description', 'contributors']
+
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
@@ -17,8 +22,8 @@ class GetMovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ['id', 'title', 'description', 'poster',
-                  'average_score', 'number_reviews', 
-                  'genre_list', 'release_date', 
+                  'average_score', 'total_score',
+                  'number_reviews', 'genre_list', 'release_date', 
                   'runtime', 'date_added', 'modified_at',
                   'director', 'cast', 'crew',
                   'contributors']
