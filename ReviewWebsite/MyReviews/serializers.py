@@ -2,15 +2,21 @@ from rest_framework import serializers
 from .models import Movie, Genre, Person, Review, User
 
 
+class GetGenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ['name', 'description', 'contributors']
+
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = ['name', 'description']
 
-class GetGenreSerializer(serializers.ModelSerializer):
+class GetPersonSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Genre
-        fields = ['name', 'description', 'contributors']
+        model = Person
+        fields = ['id', 'name', 'birth', 'death', 
+                  'biography', 'picture', 'contributors']
 
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:

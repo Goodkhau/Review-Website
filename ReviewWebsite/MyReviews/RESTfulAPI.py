@@ -1,16 +1,17 @@
-from rest_framework import generics, status
-from rest_framework import authentication, permissions
+from rest_framework import status
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import JsonResponse
-from django.shortcuts import render
 from django.db.models import Q
-from .models import Movie, Review, Genre, User, Person
-from .serializers import PersonSerializer, GetReviewSerializer, PatchReviewSerializer, ReviewSerializer, GetGenreSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
+from .models import Movie, Review, Genre, Person
+from .serializers import GetPersonSerializer, PersonSerializer, GetReviewSerializer, PatchReviewSerializer, ReviewSerializer, GetGenreSerializer, GenreSerializer, GetMovieSerializer, MovieSerializer
 import datetime
 from datetime import date
 import math
 
+
+## Create a owner column to police delete function.
+## Update contributors on patch.
 
 class SingleMovieAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -291,10 +292,24 @@ class GenreAPI(APIView):
         genres = GetGenreSerializer(genres, many=True)
         return Response(genres.data, status=status.HTTP_200_OK)
 
-## Post add user to contrib. Need to be a user to post
-## Get queriable by birth death and name
+## Create patch and update get
 class PersonAPI(APIView):
     def post(self, request):
-        return Response()
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        person = PersonSerializer(data=request.data, partial=True)
+        if not person.valid():
+            return Response(person.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        person.save(contributors=[request.user])
+        return Response(person.data, status=status.HTTP_201_CREATED)
+    
     def get(self, request):
-        return Response()
+        name = request.GET.get("name")
+        name = name if name is not None else ""
+        people = Person.objects.filter(
+            Q(name__icontains=name)
+        )[:5]
+        people = GetPersonSerializer(people, many=True)
+        return Response(people.data, status=status.HTTP_200_OK)
