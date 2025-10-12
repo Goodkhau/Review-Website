@@ -27,4 +27,6 @@ urlpatterns = [
     path('api/v1/movie/<int:pk>/', RESTfulAPI.SingleMovieAPI.as_view(), name='api-movie-id'),
     path('api/v1/genre/', RESTfulAPI.GenreAPI.as_view(), name='api-genre'),
     path('api/v1/genre/<str:pk>/', RESTfulAPI.SingleGenreAPI.as_view(), name='api-genre-name'),
+    path('api/v1/person/', RESTfulAPI.PersonAPI.as_view(), name='api-person'),
+    path('api/v1/person/<int:pk>/', RESTfulAPI.SinglePersonAPI.as_view(), name='api-person-name'),
 ]

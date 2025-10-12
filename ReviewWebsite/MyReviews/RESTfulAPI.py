@@ -293,13 +293,50 @@ class GenreAPI(APIView):
         return Response(genres.data, status=status.HTTP_200_OK)
 
 ## Create patch and update get
+class SinglePersonAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, pk):
+        try:
+            person = Person.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        person = GetPersonSerializer(person)
+        return Response(person.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk):
+        try:
+            person = Person.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        person.contributors.clear()
+        person.director.clear()
+        person.cast.clear()
+        person.crew.clear()
+        person.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def patch(self, request, pk):
+        try:
+            person = Person.objects.get(id=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        person = PersonSerializer(person, data=request.data, partial=True)
+        if not person.is_valid():
+            return Response(person.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        person.save()
+        return Response(person.data, status=status.HTTP_200_OK)
+
 class PersonAPI(APIView):
     def post(self, request):
         if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         person = PersonSerializer(data=request.data, partial=True)
-        if not person.valid():
+        if not person.is_valid():
             return Response(person.errors, status=status.HTTP_400_BAD_REQUEST)
         
         person.save(contributors=[request.user])
