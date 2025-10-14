@@ -4,6 +4,13 @@
 
 {% block content %}
 
+{% if user == request.user %}
+<link rel="stylesheet" href="{% static 'styles/editpopup.css' %}">
+{% include 'MyReviews/editmovie.html' %}
+{% include 'MyReviews/editreview.html' %}
+{% include 'MyReviews/edituser.html' %}
+{% endif %}
+
 <link rel="stylesheet" href="{% static 'styles/userprofile.css' %}">
 
 <div class="profilepage-container">
@@ -22,7 +29,7 @@
             <div class="element-edit">
                 <h3>About</h3>
                 {% if user.username == request.user.username %}
-                <div><a href="{% url 'api-RUD-user' user.id %}"><p>Edit</p></a></div>
+                <div><a href=""><p>Edit</p></a></div>
                 {% endif %}
             </div>
         </div>
@@ -30,7 +37,7 @@
             <div class="element-edit">
                 <h3>Reviews</h3>
                 {% if user.username == request.user.username %}
-                <div><a href="{% url 'api-create-review' %}"><p>Edit</p></a></div>
+                <div><a href="{% url 'api-review' %}"><p>Edit</p></a></div>
                 {% endif %}
             </div>
         </div>
@@ -38,7 +45,7 @@
             <div class="element-edit">
                 <h3>Added Movies</h3>
                 {% if user.username == request.user.username %}
-                <div><a href="{% url 'api-create-movie' %}"><p>Edit</p></a></div>
+                <div><a href="{% url 'api-movie' %}"><p>Edit</p></a></div>
                 {% endif %}
             </div>
         </div>
