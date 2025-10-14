@@ -4,7 +4,7 @@ from .models import Movie, Review, Genre, User, Person
 
 def homepage(request):
     movie_genres = []
-    movies = Movie.objects.all().order_by('-release_date')[:10]
+    movies = Movie.objects.all().order_by('-date_added')[:10]
     for movie in movies:
         genres = movie.genre_list.all().order_by('name')
         rating = None if movie.number_reviews == 0 else movie.total_score/movie.number_reviews

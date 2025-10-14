@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -70,5 +71,5 @@ class Review(models.Model):
     reviewer = models.ForeignKey(User, related_name='reviewer', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    score = models.IntegerField()
+    score = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     body = models.TextField(blank=True)
