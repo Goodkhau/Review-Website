@@ -3,7 +3,11 @@
 {% block content %}
 
 <section class="edit-container">
-
+    <form action="">
+        {% csrf_token %}
+        {{ form_user.as_p }}
+        <input type="submit" value="PATCH" />
+    </form>
 </section>
 
 {% endblock %}
