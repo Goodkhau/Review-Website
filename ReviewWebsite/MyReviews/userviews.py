@@ -6,14 +6,17 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+from .forms import MovieForm, ReviewForm
 from .userform import RegistrationForm
 from .tokens import account_activation_token
 from .models import User
 
 def profilepage(request, pk):
+    form_movie = MovieForm
+    form_review = ReviewForm
     user = User.objects.get(id=pk)
     reviews = user.reviewer.all()
-    context = {'reviews': reviews, 'user': user}
+    context = {'form_review': form_review, 'form_movie': form_movie, 'reviews': reviews, 'user': user}
     return render(request, 'MyReviews/userprofile.html', context)
 
 def loginpage(request):

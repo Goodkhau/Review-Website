@@ -3,20 +3,26 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from .models import Movie, User, Review, Genre, Person
 
-class MovieForm(forms.FORM):
+class MovieForm(forms.Form):
+    class Meta:
+        model = Movie
+    
     title = forms.CharField(max_length=100)
-    description = forms.TextField(blank=True)
-    poster = forms.ImageField(default='fallback.png', blank=True)
-    genre_list = forms.ManyToManyField(Genre, related_name='genre_list', blank=True)
-    release_date = forms.DateField(blank=True, null=True)
-    runtime = forms.IntegerField()
-    director = forms.ManyToManyField(Person, related_name='director', blank=True)
-    cast = forms.ManyToManyField(Person, related_name='cast', blank=True)
-    crew = forms.ManyToManyField(Person, related_name='crew', blank=True)
+    description = forms.CharField(widget=forms.Textarea, required=False, label="Description (optional)")
+    poster = forms.ImageField(required=False)
+    genre_list = forms.ModelMultipleChoiceField(queryset=Genre.objects.all())
+    release_date = forms.DateField(required=False)
+    runtime = forms.IntegerField(required=False)
+    director = forms.ModelMultipleChoiceField(queryset=Person.objects.all())
+    cast = forms.ModelMultipleChoiceField(queryset=Person.objects.all())
+    crew = forms.ModelMultipleChoiceField(queryset=Person.objects.all())
 
-class ReviewForm(forms.FORM):
+class ReviewForm(forms.Form):
+    class Meta:
+        model = Review
+    
     score = forms.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
-    body = forms.TextField(blank=True)
+    body = forms.CharField(widget=forms.Textarea, required=False, label="Body (optional)")
 
 ## class UserForm(forms.FORM):
     ## Add about me
