@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="edit-container-review">
+<section class="edit-container-review" id="review-popup">
     <form action="">
         {% csrf_token %}
         {{ form_review.as_p }}

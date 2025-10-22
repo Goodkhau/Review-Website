@@ -37,7 +37,7 @@
             <div class="element-edit">
                 <h3>Reviews</h3>
                 {% if user.username == request.user.username %}
-                <div><p>Edit</p></div>
+                <div onclick="displayReviewForm()"><p>Edit</p></div>
                 {% endif %}
             </div>
         </div>
@@ -57,6 +57,6 @@
     </section>
 </div>
 
-<script src="{% static 'styles/popup.js' %}"></script>
+<script src="{% static 'scripts/popup.js' %}"></script>
 
 {% endblock %}

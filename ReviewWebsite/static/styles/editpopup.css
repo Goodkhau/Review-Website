@@ -1,7 +1,7 @@
 .edit-container-movie {
     display: none;
 }
-.edit-container-review {
+#review-popup {
     display: none;
 }
 .edit-container-user {

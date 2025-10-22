@@ -1,3 +1,4 @@
 function displayReviewForm() {
-    var popup = document.getElementsByClassName("edit-container-review")
+    document.getElementById("review-popup").style.display = "block"
+    print("Executed\n")
 }
