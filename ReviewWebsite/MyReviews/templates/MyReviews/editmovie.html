@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="edit-container-movie">
+<section class="edit-container" id="movie-popup">
     <form action="">
         {% csrf_token %}
         {{ form_movie.as_p }}

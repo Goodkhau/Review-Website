@@ -1,8 +1,16 @@
-.edit-container-movie {
-    display: none;
-}
 #review-popup {
-    display: none;
+    visibility: hidden;
+}
+#movie-popup {
+    visibility: hidden;
+}
+#user-popup {
+    visibility: hidden;
+}
+.edit-container {
+    position: fixed;
+    display: grid;
+    z-index: 9;
 }
 .edit-container-user {
     display: none;

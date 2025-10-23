@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="edit-container-user">
+<section class="edit-container" id="user-popup">
     <form action="">
         {% csrf_token %}
         {{ form_user.as_p }}
