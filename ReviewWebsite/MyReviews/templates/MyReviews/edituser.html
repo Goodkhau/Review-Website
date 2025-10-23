@@ -3,11 +3,13 @@
 {% block content %}
 
 <section class="edit-container" id="user-popup">
+    <div onclick="closeUserForm()"></div>
     <form action="">
         {% csrf_token %}
         {{ form_user.as_p }}
         <input type="submit" value="PATCH" />
     </form>
+    <div onclick="closeUserForm()"></div>
 </section>
 
 {% endblock %}

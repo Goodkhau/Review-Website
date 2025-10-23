@@ -3,11 +3,13 @@
 {% block content %}
 
 <section class="edit-container" id="movie-popup">
+    <div onclick="closeMovieForm()"></div>
     <form action="">
         {% csrf_token %}
         {{ form_movie.as_p }}
         <input type="submit" value="PATCH" />
     </form>
+    <div onclick="closeMovieForm()"></div>
 </section>
 
 {% endblock %}
