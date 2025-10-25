@@ -4,10 +4,10 @@
 
 <section class="edit-container" id="movie-popup">
     <div onclick="closeMovieForm()"></div>
-    <form action="">
+    <form method="post" action="{% url 'api-movie' %}">
         {% csrf_token %}
         {{ form_movie.as_p }}
-        <input type="submit" value="PATCH" />
+        <input type="submit" value="POST" />
     </form>
     <div onclick="closeMovieForm()"></div>
 </section>

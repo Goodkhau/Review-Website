@@ -4,10 +4,10 @@
 
 <section class="edit-container" id="review-popup">
     <div onclick="closeReviewForm()"></div>
-    <form action="">
+    <form method="post" action="{% url 'api-review' %}">
         {% csrf_token %}
         {{ form_review.as_p }}
-        <input type="submit" value="PATCH" />
+        <input type="submit" value="POST" />
     </form>
     <div onclick="closeReviewForm()"></div>
 </section>
