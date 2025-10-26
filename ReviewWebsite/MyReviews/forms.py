@@ -21,6 +21,7 @@ class ReviewForm(forms.Form):
     class Meta:
         model = Review
     
+    movie = forms.ModelChoiceField(queryset=Movie.objects.all()[:5], empty_label="Select a film")
     score = forms.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     body = forms.CharField(widget=forms.Textarea, required=False, label="Body (optional)")
 
