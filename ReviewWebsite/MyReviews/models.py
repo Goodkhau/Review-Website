@@ -52,7 +52,7 @@ class Person(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    poster = models.ImageField(default='fallback.png', blank=True)
+    poster = models.ImageField(upload_to='./', default='fallback.png', blank=True)
     average_score = models.DecimalField(max_digits=4, decimal_places=2, null=True)
     total_score = models.IntegerField(default=0)
     number_reviews = models.IntegerField(default=0)
