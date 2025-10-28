@@ -2,12 +2,14 @@
 
 {% block content %}
 
-<section class="edit-container">
-    <form action="">
+<section class="edit-container" id="movie-popup">
+    <div onclick="closeMovieForm()"></div>
+    <form method="post" action="{% url 'api-movie' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form_movie.as_p }}
-        <input type="submit" value="PATCH" />
+        <input type="submit" value="POST" />
     </form>
+    <div onclick="closeMovieForm()"></div>
 </section>
 
 {% endblock %}

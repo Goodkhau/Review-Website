@@ -199,8 +199,7 @@ class ReviewAPI(APIView):
         if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
-        has_review = request.user.reviewer.get(movie=request.data["movie"])
-        if has_review is not None:
+        if request.user.reviewer.filter(movie=request.data["movie"]).exists():
             return Response(status=status.HTTP_200_OK)
         
         review = ReviewSerializer(data=request.data, partial=True)
