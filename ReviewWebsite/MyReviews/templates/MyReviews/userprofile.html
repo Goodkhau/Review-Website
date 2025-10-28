@@ -28,24 +28,28 @@
             <h1>{{ user.username }}</h1>
             <div class="element-edit">
                 <h3>About</h3>
-                {% if user.username == request.user.username %}
-                <div  onclick="displayUserForm()"><p>Edit</p></div>
-                {% endif %}
             </div>
         </div>
         <div class="profilepage-container-user-reviews">
             <div class="element-edit">
                 <h3>Reviews</h3>
                 {% if user.username == request.user.username %}
-                <div onclick="displayReviewForm()"><p>Edit</p></div>
+                <div onclick="displayReviewForm()"><p>Create</p></div>
                 {% endif %}
+            </div>
+            <div class="reviews-container">
+                {% for review in reviews %}
+                <div>
+                    {{review.movie}}
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="profilepage-container-user-movies">
             <div class="element-edit">
                 <h3>Added Movies</h3>
                 {% if user.username == request.user.username %}
-                <div onclick="displayMovieForm()"><p>Edit</p></div>
+                <div onclick="displayMovieForm()"><p>Create</p></div>
                 {% endif %}
             </div>
         </div>
