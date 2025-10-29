@@ -52,6 +52,13 @@
                 <div onclick="displayMovieForm()"><p>Create</p></div>
                 {% endif %}
             </div>
+            <div class="movie-container">
+                {% for movie in movies %}
+                <div>
+                    {{movie.title}}
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </section>
     <section class="profilepage-container-misc">

@@ -16,7 +16,8 @@ def profilepage(request, pk):
     form_review = ReviewForm
     user = User.objects.get(id=pk)
     reviews = user.reviewer.all()
-    context = {'form_review': form_review, 'form_movie': form_movie, 'reviews': reviews, 'user': user}
+    movies = user.movie_contrib.all()
+    context = {'form_review': form_review, 'form_movie': form_movie, 'reviews': reviews, 'movies': movies, 'user': user}
     return render(request, 'MyReviews/userprofile.html', context)
 
 def loginpage(request):
