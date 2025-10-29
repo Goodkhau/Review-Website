@@ -67,6 +67,10 @@ p {
     padding-bottom: 10px;
     padding-top: 60px;
 }
+@keyframes dropdown {
+    0%  { height: 0px; display: block; }
+    100%{ height: 300px; display: block; }
+}
 .profilepage-container-user-reviews {
     background-color: #F5F5F5;
     border-radius: 16px;
@@ -75,12 +79,18 @@ p {
     padding-right: 30px;
     margin-top: 10px;
 }
+.profilepage-container-user-reviews:hover .reviews-container {
+    animation-name: dropdown;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    height: 300px;
+    display: block;
+}
 .reviews-container {
     display: none;
     position: relative;
     z-index: 0;
     height: 0px;
-    
 }
 .profilepage-container-user-movies {
     background-color: #F5F5F5;
