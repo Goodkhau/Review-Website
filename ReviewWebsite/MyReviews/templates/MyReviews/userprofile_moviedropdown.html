@@ -1,0 +1,13 @@
+<div class="element-edit">
+    <h3>Added Movies</h3>
+    {% if user.username == request.user.username %}
+    <div onclick="displayMovieForm()"><p>Create</p></div>
+    {% endif %}
+</div>
+<div class="movie-container">
+    {% for movie in movies %}
+    <div>
+        {{movie.title}}
+    </div>
+    {% endfor %}
+</div>

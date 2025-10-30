@@ -14,6 +14,7 @@ p {
 }
 .profilepage-container-user {
     background-color: white;
+    margin-bottom: 200px;
 }
 .profilepage-container-user-background {
     position: relative;
@@ -67,14 +68,6 @@ p {
     padding-bottom: 10px;
     padding-top: 60px;
 }
-@keyframes dropdown {
-    0%  { height: 0px; display: grid; visibility: hidden;}
-    100%{ height: 500px; display: grid; visibility: hidden;}
-}
-@keyframes dropup {
-    0%  { height: 500px; display: grid; visibility: hidden;}
-    100%{ height: 0px; display: grid; visibility: hidden;}
-}
 .profilepage-container-user-reviews {
     background-color: #F5F5F5;
     border-radius: 16px;
@@ -83,25 +76,6 @@ p {
     padding-right: 30px;
     margin-top: 10px;
 }
-.profilepage-container-user-reviews:hover .reviews-container {
-    animation-name: dropdown;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-    height: 500px;
-    display: grid;
-    visibility: visible;
-}
-.reviews-container {
-    animation-name: dropup;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-    display: none;
-    position: relative;
-    visibility: hidden;
-    z-index: 0;
-    height: 0px;
-    grid-template-columns: 100px auto;
-}
 .profilepage-container-user-movies {
     background-color: #F5F5F5;
     border-radius: 16px;
@@ -109,25 +83,6 @@ p {
     padding-left: 30px;
     padding-right: 30px;
     margin-top: 10px;
-}
-.profilepage-container-user-movies:hover .movie-container {
-    animation-name: dropdown;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-    height: 500px;
-    display: grid;
-    visibility: visible;
-}
-.movie-container {
-    animation-name: dropup;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-    display: none;
-    position: relative;
-    visibility: hidden;
-    z-index: 0;
-    height: 0px;
-    grid-template-columns: 100px auto;
 }
 .profilepage-container-misc {
     margin-left: 10px;

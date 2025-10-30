@@ -12,6 +12,7 @@
 {% endif %}
 
 <link rel="stylesheet" href="{% static 'styles/userprofile.css' %}">
+<link rel="stylesheet" href="{% static 'styles/userprofile_dropdown.css' %}">
 
 <div class="profilepage-container">
     <section class="profilepage-container-user">
@@ -31,35 +32,10 @@
             </div>
         </div>
         <div class="profilepage-container-user-reviews">
-            <div class="element-edit">
-                <h3>Reviews</h3>
-                {% if user.username == request.user.username %}
-                <div onclick="displayReviewForm()"><p>Create</p></div>
-                {% endif %}
-            </div>
-            <div class="reviews-container">
-                {% for review in reviews %}
-                <img src="{{ review.movie.poster.url }}" alt="{{ review.movie.title }}" height="100px" width="100px">
-                <div>
-                    {{review.movie.title}}
-                </div>
-                {% endfor %}
-            </div>
+            {% include 'MyReviews/userprofile_reviewdropdown.html' %}
         </div>
         <div class="profilepage-container-user-movies">
-            <div class="element-edit">
-                <h3>Added Movies</h3>
-                {% if user.username == request.user.username %}
-                <div onclick="displayMovieForm()"><p>Create</p></div>
-                {% endif %}
-            </div>
-            <div class="movie-container">
-                {% for movie in movies %}
-                <div>
-                    {{movie.title}}
-                </div>
-                {% endfor %}
-            </div>
+            {% include 'MyReviews/userprofile_moviedropdown.html' %}
         </div>
     </section>
     <section class="profilepage-container-misc">

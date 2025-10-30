@@ -1,0 +1,14 @@
+<div class="element-edit">
+    <h3>Reviews</h3>
+    {% if user.username == request.user.username %}
+    <div onclick="displayReviewForm()"><p>Create</p></div>
+    {% endif %}
+</div>
+<div class="reviews-container">
+    {% for review in reviews %}
+    <img class="small-icon" src="{{ review.movie.poster.url }}" alt="{{ review.movie.title }}" height="100px" width="100px">
+    <div>
+        {{review.movie.title}}
+    </div>
+    {% endfor %}
+</div>
