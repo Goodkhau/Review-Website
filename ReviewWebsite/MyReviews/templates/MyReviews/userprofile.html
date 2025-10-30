@@ -39,8 +39,9 @@
             </div>
             <div class="reviews-container">
                 {% for review in reviews %}
+                <img src="{{ review.movie.poster.url }}" alt="{{ review.movie.title }}" height="100px" width="100px">
                 <div>
-                    {{review.movie}}
+                    {{review.movie.title}}
                 </div>
                 {% endfor %}
             </div>
