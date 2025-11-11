@@ -10,7 +10,7 @@
     animation-name: dropdown;
     animation-duration: 0.5s;
     animation-timing-function: ease-in-out;
-    height: 300px;
+    height: 350px;
     display: grid;
     visibility: visible;
 }
@@ -30,7 +30,7 @@
     animation-name: dropdown;
     animation-duration: 0.5s;
     animation-timing-function: ease-in-out;
-    height: 300px;
+    height: 350px;
     display: grid;
     visibility: visible;
 }
@@ -48,6 +48,9 @@
 }
 .movieholder {
     display: grid;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
     grid-template-columns: 1fr 3fr;
 }
 .movieholder-metadata p {
