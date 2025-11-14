@@ -6,7 +6,9 @@
 </div>
 <div class="reviews-container">
     {% for review in reviews %}
-    <img class="small-icon" src="{{ review.movie.poster.url }}" alt="{{ review.movie.title }}" height="100px" width="100px">
+    <div class="imgholder">
+        <img class="small-icon" src="{{ review.movie.poster.url }}" alt="{{ review.movie.title }}" height="90px" width="90px">
+    </div>
     <div class="movieholder">
         <div class="movieholder-metadata">
             <p>{{review.movie.title}}</p>
